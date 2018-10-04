@@ -36,35 +36,19 @@ public class ASweepingOfTheMines extends Application
 {@Override
     public void start(Stage stage)
     {
- ///////////////////////////////SETTING THE GRID//////////////////////
-
-        GridPane grid= new GridPane();
-        Button[][] buttons =new Button[16][16];
-
-        for(int x=0; x<16; x++)
-            for(int y=0; y<16;y++)
-            {
-                Button b1=new Button("iii");
-                b1.setTranslateX(200.0);
-                buttons[x][y]= b1;
-            }
-        for(int x=0; x<16; x++)
-            for(int y=0; y<16; y++)
-                grid.add(buttons[x][y],x,y,1,1);
-        grid.setHgap(0);
-        grid.setVgap(0);
-
-/////////////////////////////SETTING THE OBJECTS/TEXT/////////////////////////////
+        /////////////////////////////SETTING THE OBJECTS/TEXT/////////////////////////////
         Text text1 = new Text();
         text1.setText("Hello and welcome to A Sweeping Of The Mines. Press enter to continue to the game.");
         text1.setX(100);
         text1.setY(450);
         text1.setFont(Font.font("arial", 14));
         text1.setStroke(Color.BLACK);
+        //////////////////////////////A TRUCKLOAD OF 1-NUMBER ARRAYS CAUSE OF THAT DAMN LAMBDA SCOPE ERROR///////////////////////////////////////////////////////
+        int choose[]={0};
+        int[][]mines=new int[16][16];
+        int[][] locations = new int[16][16];
 
-//////////////////////////////VARIABLES///////////////////////////////////////////////////////
-int choose[]={0};
-int[][]mines=new int[16][16];
+
 
  ////////////////////////////EVENT HANDLER/ STANDARD STUFF///////////////////////////////
         stage.addEventHandler(KeyEvent.KEY_PRESSED, (key) -> {
@@ -85,13 +69,39 @@ int[][]mines=new int[16][16];
 
 
         });
-        stage.addEventHandler(MouseEvent.MOUSE_CLICKED, (mouse) -> {
-            if(choose[0]==2)
+        /*stage.addEventHandler(MouseEvent.MOUSE_CLICKED, (mouse) -> {
+           // if(2==2)
             {
+                text1.setText("wererererererere");
 
             }
-        });
- ///////////////////////////GROUP/STANDARD/////////////////////////////////////////////////////
+        });*/
+ ////////// ///////////////////////////////SETTING THE GRID//////////////////////
+
+        GridPane grid= new GridPane();
+        Button[][] buttons =new Button[16][16];
+
+        for(int x=0; x<16; x++)
+            for(int y=0; y<16;y++)
+            {
+                Button b1=new Button("iii");
+                b1.setTranslateX(200.0);
+                buttons[x][y]= b1;
+                //locations[x][y]
+                b1.setOnMouseClicked(event ->
+                {
+                    text1.setText("button pressed");
+
+                });
+
+            }
+        for(int x=0; x<16; x++)
+            for(int y=0; y<16; y++)
+                grid.add(buttons[x][y],x,y,1,1);
+        grid.setHgap(0);
+        grid.setVgap(0);
+
+        ///////////////////////////GROUP/STANDARD/////////////////////////////////////////////////////
         Group root = new Group(grid, text1);
         Scene scene = new Scene(root, 800, 600);
         stage.setTitle("A Sweeping Of the Mines");
@@ -104,5 +114,7 @@ int[][]mines=new int[16][16];
         launch(args);
 
     }
+//////////////////////////////////THE METHODS OF KNOWLEDGE//////////////////////////////////
+
 
 }
