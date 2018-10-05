@@ -2,6 +2,7 @@ import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.layout.GridPane;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.scene.shape.Circle;
@@ -31,6 +32,7 @@ import java.util.*;
 import java.lang.Math.*;
 import java.lang.Object;
 import javafx.scene.control.Button;
+import java.lang.Math;
 
 public class ASweepingOfTheMines extends Application
 {@Override
@@ -47,6 +49,12 @@ public class ASweepingOfTheMines extends Application
         int choose[]={0};
         int[][]mines=new int[16][16];
         int[][] locations = new int[16][16];
+        int[] bombx=new int[40];
+        for(int x=0; x<16; x++)
+            for(int y=0; y<16; y++)
+                mines[x][y]=0;
+
+        int[] bomby=new int[40];
 
 
 
@@ -88,8 +96,20 @@ public class ASweepingOfTheMines extends Application
                 b1.setTranslateX(200.0);
                 buttons[x][y]= b1;
                 //locations[x][y]
+                int[] a= {x};
+                int[] b={y};
+
                 b1.setOnMouseClicked(event ->
                 {
+                    if(choose[0]==0){
+                        for(int c=0; c<40; c+=0)
+                        {
+                           // a[0]=(int)(Math.Random()*16);
+
+
+
+                        }
+                    }
                     text1.setText("button pressed");
 
                 });
