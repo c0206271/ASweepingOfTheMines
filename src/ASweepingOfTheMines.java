@@ -40,7 +40,7 @@ public class ASweepingOfTheMines extends Application
     {
         /////////////////////////////SETTING THE OBJECTS/TEXT/////////////////////////////
         Text text1 = new Text();
-        text1.setText("Hello and welcome to A Sweeping Of The Mines. Press enter to continue to the game.");
+        text1.setText("Hello and welcome to A Sweeping Of The Mines. Press click to continue to the game.");
         text1.setX(100);
         text1.setY(450);
         text1.setFont(Font.font("arial", 14));
@@ -55,11 +55,14 @@ public class ASweepingOfTheMines extends Application
                 mines[x][y]=0;
 
         int[] bomby=new int[40];
-
+        int[] sx=new int[]{0};
+        int[] sy=new int[]{0};
+        boolean[] ifused=new boolean[]{false};
+        int[] bombct=new int[]{0};
 
 
  ////////////////////////////EVENT HANDLER/ STANDARD STUFF///////////////////////////////
-        stage.addEventHandler(KeyEvent.KEY_PRESSED, (key) -> {
+        /*stage.addEventHandler(KeyEvent.KEY_PRESSED, (key) -> {
             if(choose[0]==0)
             {
                 if(key.getCode()==KeyCode.ENTER)
@@ -76,7 +79,7 @@ public class ASweepingOfTheMines extends Application
 
 
 
-        });
+        });*/
         /*stage.addEventHandler(MouseEvent.MOUSE_CLICKED, (mouse) -> {
            // if(2==2)
             {
@@ -104,13 +107,47 @@ public class ASweepingOfTheMines extends Application
                     if(choose[0]==0){
                         for(int c=0; c<40; c+=0)
                         {
-                           // a[0]=(int)(Math.Random()*16);
 
-
-
+                            text1.setText("alright youre playing this game woooooooooooooo");
+                            sx[0]=(int)(Math.random()*16);
+                            sy[0]=(int)(Math.random()*16);
+                            for(int g=0; g<c&&ifused[0]==false; g++)
+                                if(bombx[g]==sx[0]&&bomby[g]==sy[0])
+                                    ifused[0]=true;
+                            if(ifused[0]==true&&sy[0]!=a[0]&&sx[0]!=b[0])
+                            {
+                                System.out.println("that was already used");
+                            }
+                            else
+                            {
+                                bombx[c]=sx[0];
+                                bomby[c]=sy[0];
+                                c++;
+                            }
                         }
+                        ifused[0]=false;
+                        for(int c=0; c<40; c++)
+                        {
+                            mines[bombx[c]][bomby[c]]=9;
+                        }
+                        for(int xx=0; xx<16; xx++)
+                            for(int yy=0; yy<16; yy++)
+                                b1.setText(""+mines[xx][yy]);
+                        choose[0]++;
+                        for(int q=0; q<16; q++)
+                            for(int w=0; w<16; w++) {
+                                buttons[q][w].setText("" + mines[q][w]);
+                                if(mines[q][w]==9)
+                                    bombct[0]++;
+                            }
+                        text1.setText("button pressed and"+bombct[0]);
+                        bombct[0]=0;
                     }
-                    text1.setText("button pressed");
+                    if(choose[0]==1){
+
+
+                    }
+                    //text1.setText("button pressed");
 
                 });
 
