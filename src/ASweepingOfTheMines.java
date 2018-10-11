@@ -55,6 +55,11 @@ public class ASweepingOfTheMines extends Application
                 mines[x][y]=0;
 
         int[] bomby=new int[40];
+        for(int x=0; x<40; x++)
+        {
+            bombx[x]=-1;
+            bomby[x]=-1;
+        }
         int[] sx=new int[]{0};
         int[] sy=new int[]{0};
         boolean[] ifused=new boolean[]{false};
@@ -111,10 +116,7 @@ public class ASweepingOfTheMines extends Application
                             text1.setText("alright youre playing this game woooooooooooooo");
                             sx[0]=(int)(Math.random()*16);
                             sy[0]=(int)(Math.random()*16);
-                            for(int g=0; g<c&&ifused[0]==false; g++)
-                                if(bombx[g]==sx[0]&&bomby[g]==sy[0])
-                                    ifused[0]=true;
-                            if(ifused[0]==true&&sy[0]!=a[0]&&sx[0]!=b[0])
+                            if(mines[sx[0]][sy[0]]==9||sy[0]==a[0]&&sx[0]==b[0])
                             {
                                 System.out.println("that was already used");
                             }
@@ -123,6 +125,9 @@ public class ASweepingOfTheMines extends Application
                                 bombx[c]=sx[0];
                                 bomby[c]=sy[0];
                                 c++;
+                                mines[sx[0]][sy[0]]=9;
+
+
                             }
                         }
                         ifused[0]=false;
