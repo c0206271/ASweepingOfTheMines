@@ -64,6 +64,7 @@ public class ASweepingOfTheMines extends Application
         int[] sy=new int[]{0};
         boolean[] ifused=new boolean[]{false};
         int[] bombct=new int[]{0};
+        int[] bombo=new int[]{0};
 
 
  ////////////////////////////EVENT HANDLER/ STANDARD STUFF///////////////////////////////
@@ -135,6 +136,36 @@ public class ASweepingOfTheMines extends Application
                         {
                             mines[bombx[c]][bomby[c]]=9;
                         }
+                        for(int c=0; c<16; c++)
+                            for(int d=0; d<16; d++)
+                            {
+                                if(c==0&&d==0)
+                                    if (mines[c - 1][d - 1] == 9)
+                                        bombo[0]++;
+                                    if (mines[c - 1][d] == 9)
+                                        bombo[0]++;
+                                    if (mines[c][d - 1] == 9)
+                                        bombo[0]++;
+                                    if (mines[c + 1][d - 1] == 9)
+                                        bombo[0]++;
+                                    if (mines[c + 1][d] == 9)
+                                        bombo[0]++;
+                                    if (mines[c + 1][d + 1] == 9)
+                                        bombo[0]++;
+                                    if (mines[c][d + 1] == 9)
+                                        bombo[0]++;
+                                    if (mines[c - 1][d + 1] == 9)
+                                        bombo[0]++;
+
+
+
+
+                                if(mines[c][d]==0)
+                                    mines[c][d]=bombo[0];
+                                bombo[0]=0;
+                            }
+
+
                         for(int xx=0; xx<16; xx++)
                             for(int yy=0; yy<16; yy++)
                                 b1.setText(""+mines[xx][yy]);
@@ -144,6 +175,7 @@ public class ASweepingOfTheMines extends Application
                                 buttons[q][w].setText("" + mines[q][w]);
                                 if(mines[q][w]==9)
                                     bombct[0]++;
+
                             }
                         text1.setText("button pressed and"+bombct[0]);
                         bombct[0]=0;
