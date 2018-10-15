@@ -49,10 +49,13 @@ public class ASweepingOfTheMines extends Application
         int choose[]={0};
         int[][]mines=new int[16][16];
         int[][] locations = new int[16][16];
+        int[][] show= new int[16][16];
         int[] bombx=new int[40];
         for(int x=0; x<16; x++)
-            for(int y=0; y<16; y++)
-                mines[x][y]=0;
+            for(int y=0; y<16; y++) {
+                mines[x][y] = 0;
+                show[x][y]= 11;
+            }
 
         int[] bomby=new int[40];
         for(int x=0; x<40; x++)
@@ -139,7 +142,87 @@ public class ASweepingOfTheMines extends Application
                         for(int c=0; c<16; c++)
                             for(int d=0; d<16; d++)
                             {
-                                if(c==0&&d==0)
+                                if(c==0&&d==0) {
+                                    if (mines[c + 1][d + 1] == 9)
+                                        bombo[0]++;
+                                    if (mines[c][d + 1] == 9)
+                                        bombo[0]++;
+                                    if (mines[c + 1][d] == 9)
+                                        bombo[0]++;
+                                }
+                                else if(c==15&&d==0){
+                                    if (mines[c - 1][d + 1] == 9)
+                                        bombo[0]++;
+                                    if (mines[c][d + 1] == 9)
+                                        bombo[0]++;
+                                    if (mines[c - 1][d] == 9)
+                                        bombo[0]++;
+                                }
+                                else if(c==15&&d==15){
+                                    if (mines[c - 1][d - 1] == 9)
+                                        bombo[0]++;
+                                    if (mines[c][d - 1] == 9)
+                                        bombo[0]++;
+                                    if (mines[c - 1][d] == 9)
+                                        bombo[0]++;
+                                }
+                                else if(c==0&&d==15){
+                                    if (mines[c + 1][d - 1] == 9)
+                                        bombo[0]++;
+                                    if (mines[c + 1][d] == 9)
+                                        bombo[0]++;
+                                    if (mines[c][d - 1] == 9)
+                                        bombo[0]++;
+                                }
+                                else if(c==0){
+                                    if (mines[c][d-1] == 9)
+                                        bombo[0]++;
+                                    if (mines[c][d+1] == 9)
+                                        bombo[0]++;
+                                    if (mines[c + 1][d + 1] == 9)
+                                        bombo[0]++;
+                                    if (mines[c + 1][d - 1] == 9)
+                                        bombo[0]++;
+                                    if (mines[c + 1][d] == 9)
+                                        bombo[0]++;
+                                }
+                                else if(c==15){
+                                    if (mines[c][d-1] == 9)
+                                        bombo[0]++;
+                                    if (mines[c][d+1] == 9)
+                                        bombo[0]++;
+                                    if (mines[c - 1][d + 1] == 9)
+                                        bombo[0]++;
+                                    if (mines[c - 1][d - 1] == 9)
+                                        bombo[0]++;
+                                    if (mines[c - 1][d] == 9)
+                                        bombo[0]++;
+                                }
+                                else if(d==0){
+                                    if (mines[c - 1][d] == 9)
+                                        bombo[0]++;
+                                    if (mines[c + 1][d] == 9)
+                                        bombo[0]++;
+                                    if (mines[c - 1][d + 1] == 9)
+                                        bombo[0]++;
+                                    if (mines[c + 1][d + 1] == 9)
+                                        bombo[0]++;
+                                    if (mines[c][d + 1] == 9)
+                                        bombo[0]++;
+                                }
+                                else if(d==15){
+                                    if (mines[c - 1][d] == 9)
+                                        bombo[0]++;
+                                    if (mines[c + 1][d] == 9)
+                                        bombo[0]++;
+                                    if (mines[c - 1][d - 1] == 9)
+                                        bombo[0]++;
+                                    if (mines[c + 1][d - 1] == 9)
+                                        bombo[0]++;
+                                    if (mines[c][d - 1] == 9)
+                                        bombo[0]++;
+                                }
+                                else {
                                     if (mines[c - 1][d - 1] == 9)
                                         bombo[0]++;
                                     if (mines[c - 1][d] == 9)
@@ -156,7 +239,7 @@ public class ASweepingOfTheMines extends Application
                                         bombo[0]++;
                                     if (mines[c - 1][d + 1] == 9)
                                         bombo[0]++;
-
+                                }
 
 
 
@@ -172,7 +255,7 @@ public class ASweepingOfTheMines extends Application
                         choose[0]++;
                         for(int q=0; q<16; q++)
                             for(int w=0; w<16; w++) {
-                                buttons[q][w].setText("" + mines[q][w]);
+                                //buttons[q][w].setText("" + show[q][w]);
                                 if(mines[q][w]==9)
                                     bombct[0]++;
 
@@ -181,6 +264,7 @@ public class ASweepingOfTheMines extends Application
                         bombct[0]=0;
                     }
                     if(choose[0]==1){
+
 
 
                     }
