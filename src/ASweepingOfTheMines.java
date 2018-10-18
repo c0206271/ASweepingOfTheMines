@@ -50,6 +50,7 @@ public class ASweepingOfTheMines extends Application
         int[][]mines=new int[16][16];
         int[][] locations = new int[16][16];
         int[][] show= new int[16][16];
+        //int[][] fake= new int[16][16];
         int[] bombx=new int[40];
         for(int x=0; x<16; x++)
             for(int y=0; y<16; y++) {
@@ -142,7 +143,7 @@ public class ASweepingOfTheMines extends Application
                         {
                             mines[bombx[c]][bomby[c]]=9;
                         }
-                        for(int c=0; c<16; c++)
+                        /*for(int c=0; c<16; c++)
                             for(int d=0; d<16; d++)
                             {
                                 if(c==0&&d==0) {
@@ -249,13 +250,16 @@ public class ASweepingOfTheMines extends Application
                                 if(mines[c][d]==0)
                                     mines[c][d]=bombo[0];
                                 bombo[0]=0;
-                            }
+                            }*/
+                        final int[][] fake=show;
+                        show=touching(mines, fake, a[0], b[0]);
+
 
 
                         //for(int xx=0; xx<16; xx++)
                          //   for(int yy=0; yy<16; yy++) {
                                 //b1.setText("" + mines[xx][yy]);
-                                show[a[0]][b[0]]=mines[a[0]][b[0]];
+
                          //   }
                         /*while(cont[0]){
                             int c=a[0];
@@ -365,6 +369,7 @@ public class ASweepingOfTheMines extends Application
                         }*/
                         choose[0]++;
 
+
                         for(int q=0; q<16; q++)
                             for(int w=0; w<16; w++) {
                                 buttons[q][w].setText("" + mines[q][w]);
@@ -408,225 +413,311 @@ public class ASweepingOfTheMines extends Application
 //////////////////////////////////THE METHODS OF KNOWLEDGE//////////////////////////////////
     public int[][] touching(int[][] mines, int[][] show, int c, int d)
     {
+        int temp=0;
+        int q=0;
+        int w=0;
         if(c==0&&d==0) {
             if (mines[c + 1][d + 1] == 0&&show[c][d] ==11 )
             {
-                show[c+1][d+1]=0;
-                touching(mines, show, c, d);
+                q=c+1;
+                w=d+1;
+                show[c+1][d+1]=mines[q][w];
+                show=touching(mines, show, c+1, d+1);
+                temp++;
             }
 
             if (mines[c][d + 1] == 0&&show[c][d] ==11)
             {
-                show[c+1][d+1]=0;
-                touching(mines, show, c, d);
+                q=c;
+                w=d+1;
+                show[c][d+1]=mines[q][w];
+                show=touching(mines, show, c, d+1);temp++;
             }
             if (mines[c + 1][d] == 0&&show[c][d] ==11)
             {
-                show[c+1][d+1]=0;
-                touching(mines, show, c, d);
+                q=c+1;
+                w=d;
+                show[c+1][d+1]=mines[q][w];
+                show=touching(mines, show, c+1, d);temp++;
             }
         }
         else if(c==15&&d==0){
             if (mines[c - 1][d + 1] == 0&&show[c][d] ==11)
             {
-                show[c+1][d+1]=0;
-                touching(mines, show, c, d);
+                q=c-1;
+                w=d+1;
+                show[c-1][d+1]=mines[q][w];
+                show=touching(mines, show, c-1, d+1);temp++;
             }
             if (mines[c][d + 1] == 0&&show[c][d] ==11)
             {
-                show[c+1][d+1]=0;
-                touching(mines, show, c, d);
+                q=c;
+                w=d+1;
+                show[c][d+1]=mines[q][w];
+                show=touching(mines, show, c, d+1);temp++;
             }
             if (mines[c - 1][d] == 0&&show[c][d] ==11)
             {
-                show[c+1][d+1]=0;
-                touching(mines, show, c, d);
+                q=c-1;
+                w=d;
+                show[c-1][d]=mines[q][w];
+                show=touching(mines, show, c-1, d);temp++;
             }
         }
         else if(c==15&&d==15){
             if (mines[c - 1][d - 1] == 0&&show[c][d] ==11)
             {
-                show[c+1][d+1]=0;
-                touching(mines, show, c, d);
+                q=c-1;
+                w=d-1;
+                show[c-1][d-1]=mines[q][w];
+                show=touching(mines, show, c-1, d-1);temp++;
             }
             if (mines[c][d - 1] == 0&&show[c][d] ==11)
             {
-                show[c+1][d+1]=0;
-                touching(mines, show, c, d);
+                q=c;
+                w=d-1;
+                show[c][d-1]=mines[q][w];
+                show=touching(mines, show, c, d-1);temp++;
             }
             if (mines[c - 1][d] == 0&&show[c][d] ==11)
             {
-                show[c+1][d+1]=0;
-                touching(mines, show, c, d);
+                q=c-1;
+                w=d;
+                show[c-1][d]=mines[q][w];
+                show=touching(mines, show, c-1, d);temp++;
             }
         }
         else if(c==0&&d==15){
             if (mines[c + 1][d - 1] == 0&&show[c][d] ==11)
             {
-                show[c+1][d+1]=0;
-                touching(mines, show, c, d);
+                q=c+1;
+                w=d-1;
+                show[c+1][d-1]=mines[q][w];
+                show=touching(mines, show, c+1, d-1);temp++;
             }
             if (mines[c + 1][d] == 0&&show[c][d] ==11)
             {
-                show[c+1][d+1]=0;
-                touching(mines, show, c, d);
+                q=c+1;
+                w=d;
+                show[c+1][d]=mines[q][w];
+                show=touching(mines, show, c+1, d);temp++;
             }
             if (mines[c][d - 1] == 0&&show[c][d] ==11)
             {
-                show[c+1][d+1]=0;
-                touching(mines, show, c, d);
+                q=c;
+                w=d-1;
+                show[c][d-1]=mines[q][w];
+                show=touching(mines, show, c, d-1);temp++;
             }
         }
         else if(c==0){
             if (mines[c][d-1] == 0&&show[c][d] ==11)
             {
-                show[c+1][d+1]=0;
-                touching(mines, show, c, d);
+                q=c;
+                w=d-1;
+                show[c][d-1]=mines[q][w];
+                show=touching(mines, show, c, d-1);temp++;
             }
             if (mines[c][d+1] == 0&&show[c][d] ==11)
             {
-                show[c+1][d+1]=0;
-                touching(mines, show, c, d);
+                q=c;
+                w=d+1;
+                show[c][d+1]=mines[q][w];
+                show=touching(mines, show, c, d+1);temp++;
             }
             if (mines[c + 1][d + 1] == 0&&show[c][d] ==11)
             {
-                show[c+1][d+1]=0;
-                touching(mines, show, c, d);
+                q=c+1;
+                w=d+1;
+                show[c+1][d+1]=mines[q][w];
+                show=touching(mines, show, c+1, d+1);temp++;
             }
             if (mines[c + 1][d - 1] == 0&&show[c][d] ==11)
             {
-                show[c+1][d+1]=0;
-                touching(mines, show, c, d);
+                q=c+1;
+                w=d-1;
+                show[c+1][d-1]=mines[q][w];
+                show=touching(mines, show, c+1, d-1);temp++;
             }
             if (mines[c + 1][d] == 0&&show[c][d] ==11)
             {
-                show[c+1][d+1]=0;
-                touching(mines, show, c, d);
+                q=c+1;
+                w=d;
+                show[c+1][d]=mines[q][w];
+                show=touching(mines, show, c+1, d);temp++;
             }
         }
         else if(c==15){
             if (mines[c][d-1] == 0&&show[c][d] ==11)
             {
-                show[c+1][d+1]=0;
-                touching(mines, show, c, d);
+                q=c;
+                w=d-1;
+                show[c][d-1]=mines[q][w];
+                show=touching(mines, show, c, d-1);temp++;
             }
             if (mines[c][d+1] == 0&&show[c][d] ==11)
             {
-                show[c+1][d+1]=0;
-                touching(mines, show, c, d);
+                q=c;
+                w=d+1;
+                show[c][d+1]=mines[q][w];
+                show=touching(mines, show, c, d+1);temp++;
             }
             if (mines[c - 1][d + 1] == 0&&show[c][d] ==11)
             {
-                show[c+1][d+1]=0;
-                touching(mines, show, c, d);
+                q=c-1;
+                w=d+1;
+                show[c-1][d+1]=mines[q][w];
+                show=touching(mines, show, c-1, d+1);temp++;
             }
             if (mines[c - 1][d - 1] == 0&&show[c][d] ==11)
             {
-                show[c+1][d+1]=0;
-                touching(mines, show, c, d);
+                q=c-1;
+                w=d-1;
+                show[c-1][d-1]=mines[q][w];
+                show=touching(mines, show, c-1, d-1);temp++;
             }
             if (mines[c - 1][d] == 0&&show[c][d] ==11)
             {
-                show[c+1][d+1]=0;
-                touching(mines, show, c, d);
+                q=c-1;
+                w=d;
+                show[c-1][d]=mines[q][w];
+                show=touching(mines, show, c-1, d);temp++;
             }
         }
         else if(d==0){
             if (mines[c - 1][d] == 0&&show[c][d] ==11)
             {
-                show[c+1][d+1]=0;
-                touching(mines, show, c, d);
+                q=c-1;
+                w=d;
+                show[c-1][d]=mines[q][w];
+                show=touching(mines, show, c-1, d);temp++;
             }
             if (mines[c + 1][d] == 0&&show[c][d] ==11)
             {
-                show[c+1][d+1]=0;
-                touching(mines, show, c, d);
+                q=c+1;
+                w=d;
+                show[c+1][d]=mines[q][w];
+                show=touching(mines, show, c+1, d);temp++;
             }
             if (mines[c - 1][d + 1] ==0&&show[c][d] ==11)
             {
-                show[c+1][d+1]=0;
-                touching(mines, show, c, d);
+                q=c-1;
+                w=d+1;
+                show[c-1][d+1]=mines[q][w];
+                show=touching(mines, show, c-1, d+1);temp++;
             }
             if (mines[c + 1][d + 1] == 0&&show[c][d] ==11)
             {
-                show[c+1][d+1]=0;
-                touching(mines, show, c, d);
+                q=c+1;
+                w=d+1;
+                show[c+1][d+1]=mines[q][w];
+                show=touching(mines, show, c+1, d+1);temp++;
             }
             if (mines[c][d + 1] == 0&&show[c][d] ==11)
             {
-                show[c+1][d+1]=0;
-                touching(mines, show, c, d);
+                q=c;
+                w=d+1;
+                show[c][d+1]=mines[q][w];
+                show=touching(mines, show, c, d+1);temp++;
             }
         }
         else if(d==15){
             if (mines[c - 1][d] == 0&&show[c][d] ==11)
             {
-                show[c+1][d+1]=0;
-                touching(mines, show, c, d);
+                q=c-1;
+                w=d;
+                show[c-1][d]=mines[q][w];
+                show=touching(mines, show, c-1, d);temp++;
             }
             if (mines[c + 1][d] == 0&&show[c][d] ==11)
             {
-                show[c+1][d+1]=0;
-                touching(mines, show, c, d);
+                q=c+1;
+                w=d;
+                show[c+1][d]=mines[q][w];
+                show=touching(mines, show, c+1, d);temp++;
             }
             if (mines[c - 1][d - 1] == 0&&show[c][d] ==11)
             {
-                show[c+1][d+1]=0;
-                touching(mines, show, c, d);
+                q=c-1;
+                w=d-1;
+                show[c-1][d-1]=mines[q][w];
+                show=touching(mines, show, c-1, d-1);temp++;
             }
             if (mines[c + 1][d - 1] == 0&&show[c][d] ==11)
             {
-                show[c+1][d+1]=0;
-                touching(mines, show, c, d);
+                q=c+1;
+                w=d-1;
+                show[c+1][d-1]=mines[q][w];
+                show=touching(mines, show, c+1, d-1);temp++;
             }
             if (mines[c][d - 1] == 0&&show[c][d] ==11)
             {
-                show[c+1][d+1]=0;
-                touching(mines, show, c, d);
+                q=c;
+                w=d-1;
+                show[c][d-1]=mines[q][w];
+                show=touching(mines, show, c, d-1);temp++;
             }
         }
         else {
             if (mines[c - 1][d - 1] == 0&&show[c][d] ==11)
             {
-                show[c+1][d+1]=0;
-                touching(mines, show, c, d);
+                q=c-1;
+                w=d-1;
+                show[c-1][d-1]=mines[q][w];
+                show=touching(mines, show, c-1, d-1);temp++;
             }
             if (mines[c - 1][d] == 0&&show[c][d] ==11)
             {
-                show[c+1][d+1]=0;
-                touching(mines, show, c, d);
+                q=c-1;
+                w=d;
+                show[c-1][d]=mines[q][w];
+                show=touching(mines, show, c-1, d);temp++;
             }
             if (mines[c][d - 1] == 0&&show[c][d] ==11)
             {
-                show[c+1][d+1]=0;
-                touching(mines, show, c, d);
+                q=c;
+                w=d-1;
+                show[c][d-1]=mines[q][w];
+                show=touching(mines, show, c, d-1);temp++;
             }
             if (mines[c + 1][d - 1] == 0&&show[c][d] ==11)
             {
-                show[c+1][d+1]=0;
-                touching(mines, show, c, d);
+                q=c+1;
+                w=d-1;
+                show[c+1][d-1]=mines[q][w];
+                show=touching(mines, show, c+1, d-1);temp++;
             }
             if (mines[c + 1][d] == 0&&show[c][d] ==11)
             {
-                show[c+1][d+1]=0;
-                touching(mines, show, c, d);
+                q=c+1;
+                w=d;
+                show[c+1][d]=mines[q][w];
+                show=touching(mines, show, c+1, d);temp++;
             }
             if (mines[c + 1][d + 1] == 0&&show[c][d] ==11)
             {
-                show[c+1][d+1]=0;
-                touching(mines, show, c, d);
+                q=c+1;
+                w=d+1;
+                show[c+1][d+1]=mines[q][w];
+                show=touching(mines, show, c+1, d+1);temp++;
             }
             if (mines[c][d + 1] == 0&&show[c][d] ==11)
             {
-                show[c+1][d+1]=0;
-                touching(mines, show, c, d);
+                q=c;
+                w=d+1;
+                show[c][d+1]=mines[q][w];
+                show=touching(mines, show, c, d+1);temp++;
             }
             if (mines[c - 1][d + 1] == 0&&show[c][d] ==11)
             {
-                show[c+1][d+1]=0;
-                touching(mines, show, c, d);
+                q=c-1;
+                w=d+1;
+                show[c-1][d+1]=mines[q][w];
+                show=touching(mines, show, c-1, d+1);temp++;
             }
         }
+
+        return show;
     }
 
 }
