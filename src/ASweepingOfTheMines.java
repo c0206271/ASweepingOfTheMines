@@ -49,13 +49,13 @@ public class ASweepingOfTheMines extends Application
         int choose[]={0};
         int[][]mines=new int[16][16];
         int[][] locations = new int[16][16];
-        int[][] show= new int[16][16];
+        int[][][] show= new int[1][16][16];
         //int[][] fake= new int[16][16];
         int[] bombx=new int[40];
         for(int x=0; x<16; x++)
             for(int y=0; y<16; y++) {
                 mines[x][y] = 0;
-                show[x][y]= 11;
+                show[0][x][y]= 11;
             }
 
         int[] bomby=new int[40];
@@ -117,71 +117,61 @@ public class ASweepingOfTheMines extends Application
 
                 b1.setOnMouseClicked(event ->
                 {
-                    if(choose[0]==0){
-                        for(int c=0; c<40; c+=0)
-                        {
+                    if(choose[0]==0) {
+                        for (int c = 0; c < 40; c += 0) {
 
                             text1.setText("alright youre playing this game woooooooooooooo");
-                            sx[0]=(int)(Math.random()*16);
-                            sy[0]=(int)(Math.random()*16);
-                            if(mines[sx[0]][sy[0]]==9||sy[0]==a[0]&&sx[0]==b[0])
-                            {
+                            sx[0] = (int) (Math.random() * 16);
+                            sy[0] = (int) (Math.random() * 16);
+                            if (mines[sx[0]][sy[0]] == 9 || sy[0] == a[0] && sx[0] == b[0]) {
                                 System.out.println("that was already used");
-                            }
-                            else
-                            {
-                                bombx[c]=sx[0];
-                                bomby[c]=sy[0];
+                            } else {
+                                bombx[c] = sx[0];
+                                bomby[c] = sy[0];
                                 c++;
-                                mines[sx[0]][sy[0]]=9;
+                                mines[sx[0]][sy[0]] = 9;
 
 
                             }
                         }
-                        ifused[0]=false;
-                        for(int c=0; c<40; c++)
-                        {
-                            mines[bombx[c]][bomby[c]]=9;
+                        ifused[0] = false;
+                        for (int c = 0; c < 40; c++) {
+                            mines[bombx[c]][bomby[c]] = 9;
                         }
-                        /*for(int c=0; c<16; c++)
-                            for(int d=0; d<16; d++)
-                            {
-                                if(c==0&&d==0) {
+                        for (int c = 0; c < 16; c++)
+                            for (int d = 0; d < 16; d++) {
+                                if (c == 0 && d == 0) {
                                     if (mines[c + 1][d + 1] == 9)
                                         bombo[0]++;
                                     if (mines[c][d + 1] == 9)
                                         bombo[0]++;
                                     if (mines[c + 1][d] == 9)
                                         bombo[0]++;
-                                }
-                                else if(c==15&&d==0){
+                                } else if (c == 15 && d == 0) {
                                     if (mines[c - 1][d + 1] == 9)
                                         bombo[0]++;
                                     if (mines[c][d + 1] == 9)
                                         bombo[0]++;
                                     if (mines[c - 1][d] == 9)
                                         bombo[0]++;
-                                }
-                                else if(c==15&&d==15){
+                                } else if (c == 15 && d == 15) {
                                     if (mines[c - 1][d - 1] == 9)
                                         bombo[0]++;
                                     if (mines[c][d - 1] == 9)
                                         bombo[0]++;
                                     if (mines[c - 1][d] == 9)
                                         bombo[0]++;
-                                }
-                                else if(c==0&&d==15){
+                                } else if (c == 0 && d == 15) {
                                     if (mines[c + 1][d - 1] == 9)
                                         bombo[0]++;
                                     if (mines[c + 1][d] == 9)
                                         bombo[0]++;
                                     if (mines[c][d - 1] == 9)
                                         bombo[0]++;
-                                }
-                                else if(c==0){
-                                    if (mines[c][d-1] == 9)
+                                } else if (c == 0) {
+                                    if (mines[c][d - 1] == 9)
                                         bombo[0]++;
-                                    if (mines[c][d+1] == 9)
+                                    if (mines[c][d + 1] == 9)
                                         bombo[0]++;
                                     if (mines[c + 1][d + 1] == 9)
                                         bombo[0]++;
@@ -189,11 +179,10 @@ public class ASweepingOfTheMines extends Application
                                         bombo[0]++;
                                     if (mines[c + 1][d] == 9)
                                         bombo[0]++;
-                                }
-                                else if(c==15){
-                                    if (mines[c][d-1] == 9)
+                                } else if (c == 15) {
+                                    if (mines[c][d - 1] == 9)
                                         bombo[0]++;
-                                    if (mines[c][d+1] == 9)
+                                    if (mines[c][d + 1] == 9)
                                         bombo[0]++;
                                     if (mines[c - 1][d + 1] == 9)
                                         bombo[0]++;
@@ -201,8 +190,7 @@ public class ASweepingOfTheMines extends Application
                                         bombo[0]++;
                                     if (mines[c - 1][d] == 9)
                                         bombo[0]++;
-                                }
-                                else if(d==0){
+                                } else if (d == 0) {
                                     if (mines[c - 1][d] == 9)
                                         bombo[0]++;
                                     if (mines[c + 1][d] == 9)
@@ -213,8 +201,7 @@ public class ASweepingOfTheMines extends Application
                                         bombo[0]++;
                                     if (mines[c][d + 1] == 9)
                                         bombo[0]++;
-                                }
-                                else if(d==15){
+                                } else if (d == 15) {
                                     if (mines[c - 1][d] == 9)
                                         bombo[0]++;
                                     if (mines[c + 1][d] == 9)
@@ -225,8 +212,7 @@ public class ASweepingOfTheMines extends Application
                                         bombo[0]++;
                                     if (mines[c][d - 1] == 9)
                                         bombo[0]++;
-                                }
-                                else {
+                                } else {
                                     if (mines[c - 1][d - 1] == 9)
                                         bombo[0]++;
                                     if (mines[c - 1][d] == 9)
@@ -246,21 +232,19 @@ public class ASweepingOfTheMines extends Application
                                 }
 
 
+                                if (mines[c][d] == 0)
+                                    mines[c][d] = bombo[0];
+                                bombo[0] = 0;
+                            }
 
-                                if(mines[c][d]==0)
-                                    mines[c][d]=bombo[0];
-                                bombo[0]=0;
-                            }*/
-                        final int[][] fake=show;
-                        show=touching(mines, fake, a[0], b[0]);
-
+                       show[0] = touching(mines, show[0], a[0], b[0]);
 
 
-                        //for(int xx=0; xx<16; xx++)
-                         //   for(int yy=0; yy<16; yy++) {
-                                //b1.setText("" + mines[xx][yy]);
+                        for (int xx = 0; xx < 16; xx++)
+                            for (int yy = 0; yy < 16; yy++) {
+                                b1.setText("" + show[0][xx][yy]);
 
-                         //   }
+                                 }
                         /*while(cont[0]){
                             int c=a[0];
                             int d=b[0];
@@ -367,26 +351,24 @@ public class ASweepingOfTheMines extends Application
                                     bombo[0]++;
                             }
                         }*/
-                        choose[0]++;
+                                choose[0]++;
 
 
-                        for(int q=0; q<16; q++)
-                            for(int w=0; w<16; w++) {
-                                buttons[q][w].setText("" + mines[q][w]);
-                                if(mines[q][w]==9)
-                                    bombct[0]++;
+                                for (int q = 0; q < 16; q++)
+                                    for (int w = 0; w < 16; w++) {
+                                       // buttons[q][w].setText("" + mines[q][w]);
+                                        if (mines[q][w] == 9)
+                                            bombct[0]++;
 
+                                    }
+                                text1.setText("button pressed and" + bombct[0]);
+                                bombct[0] = 0;
                             }
-                        text1.setText("button pressed and"+bombct[0]);
-                        bombct[0]=0;
-                    }
-                    if(choose[0]==1){
+                        if (choose[0] == 1) {
 
 
-
-
-                    }
-                    //text1.setText("button pressed");
+                        }
+                        //text1.setText("button pressed");
 
                 });
 
@@ -416,7 +398,7 @@ public class ASweepingOfTheMines extends Application
         int temp=0;
         int q=0;
         int w=0;
-        if(c==0&&d==0) {
+        if(c==0&&d==0) {System.out.println("triggered");
             if (mines[c + 1][d + 1] == 0&&show[c][d] ==11 )
             {
                 q=c+1;
@@ -441,20 +423,20 @@ public class ASweepingOfTheMines extends Application
                 show=touching(mines, show, c+1, d);temp++;
             }
         }
-        else if(c==15&&d==0){
+        else if(c==15&&d==0){System.out.println("triggered2");
             if (mines[c - 1][d + 1] == 0&&show[c][d] ==11)
             {
                 q=c-1;
                 w=d+1;
                 show[c-1][d+1]=mines[q][w];
-                show=touching(mines, show, c-1, d+1);temp++;
+               show=touching(mines, show, c-1, d+1);temp++;
             }
             if (mines[c][d + 1] == 0&&show[c][d] ==11)
             {
                 q=c;
                 w=d+1;
                 show[c][d+1]=mines[q][w];
-                show=touching(mines, show, c, d+1);temp++;
+               show=touching(mines, show, c, d+1);temp++;
             }
             if (mines[c - 1][d] == 0&&show[c][d] ==11)
             {
@@ -464,7 +446,7 @@ public class ASweepingOfTheMines extends Application
                 show=touching(mines, show, c-1, d);temp++;
             }
         }
-        else if(c==15&&d==15){
+        else if(c==15&&d==15){System.out.println("triggered3");
             if (mines[c - 1][d - 1] == 0&&show[c][d] ==11)
             {
                 q=c-1;
@@ -477,17 +459,17 @@ public class ASweepingOfTheMines extends Application
                 q=c;
                 w=d-1;
                 show[c][d-1]=mines[q][w];
-                show=touching(mines, show, c, d-1);temp++;
+               show=touching(mines, show, c, d-1);temp++;
             }
             if (mines[c - 1][d] == 0&&show[c][d] ==11)
             {
                 q=c-1;
                 w=d;
                 show[c-1][d]=mines[q][w];
-                show=touching(mines, show, c-1, d);temp++;
+               show=touching(mines, show, c-1, d);temp++;
             }
         }
-        else if(c==0&&d==15){
+        else if(c==0&&d==15){System.out.println("triggered4");
             if (mines[c + 1][d - 1] == 0&&show[c][d] ==11)
             {
                 q=c+1;
@@ -510,7 +492,7 @@ public class ASweepingOfTheMines extends Application
                 show=touching(mines, show, c, d-1);temp++;
             }
         }
-        else if(c==0){
+        else if(c==0){System.out.println("triggered5");
             if (mines[c][d-1] == 0&&show[c][d] ==11)
             {
                 q=c;
@@ -547,7 +529,7 @@ public class ASweepingOfTheMines extends Application
                 show=touching(mines, show, c+1, d);temp++;
             }
         }
-        else if(c==15){
+        else if(c==15){System.out.println("triggered6");
             if (mines[c][d-1] == 0&&show[c][d] ==11)
             {
                 q=c;
@@ -584,7 +566,7 @@ public class ASweepingOfTheMines extends Application
                 show=touching(mines, show, c-1, d);temp++;
             }
         }
-        else if(d==0){
+        else if(d==0){System.out.println("triggered7");
             if (mines[c - 1][d] == 0&&show[c][d] ==11)
             {
                 q=c-1;
@@ -621,7 +603,7 @@ public class ASweepingOfTheMines extends Application
                 show=touching(mines, show, c, d+1);temp++;
             }
         }
-        else if(d==15){
+        else if(d==15){System.out.println("triggered8");
             if (mines[c - 1][d] == 0&&show[c][d] ==11)
             {
                 q=c-1;
@@ -658,7 +640,7 @@ public class ASweepingOfTheMines extends Application
                 show=touching(mines, show, c, d-1);temp++;
             }
         }
-        else {
+        else {System.out.println("CHRONO TRIGGERED");
             if (mines[c - 1][d - 1] == 0&&show[c][d] ==11)
             {
                 q=c-1;
@@ -692,7 +674,7 @@ public class ASweepingOfTheMines extends Application
                 q=c+1;
                 w=d;
                 show[c+1][d]=mines[q][w];
-                show=touching(mines, show, c+1, d);temp++;
+               show=touching(mines, show, c+1, d);temp++;
             }
             if (mines[c + 1][d + 1] == 0&&show[c][d] ==11)
             {
