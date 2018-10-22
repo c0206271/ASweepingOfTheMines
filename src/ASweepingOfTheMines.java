@@ -123,7 +123,7 @@ public class ASweepingOfTheMines extends Application
                             text1.setText("alright youre playing this game woooooooooooooo");
                             sx[0] = (int) (Math.random() * 16);
                             sy[0] = (int) (Math.random() * 16);
-                            if (mines[sx[0]][sy[0]] == 9 || sy[0] == a[0] && sx[0] == b[0]) {
+                            if (mines[sx[0]][sy[0]] == 9 || sx[0] == a[0] && sy[0] == b[0]) {
                                 System.out.println("that was already used");
                             } else {
                                 bombx[c] = sx[0];
@@ -237,14 +237,14 @@ public class ASweepingOfTheMines extends Application
                                 bombo[0] = 0;
                             }
 
-                       show[0] = touching(mines, show[0], a[0], b[0]);
+                       show[0] = touching(mines, show[0], a[0], b[0], 0);
 
 
                         for (int xx = 0; xx < 16; xx++)
-                            for (int yy = 0; yy < 16; yy++) {
-                                b1.setText("" + show[0][xx][yy]);
+                            for (int yy = 0; yy < 16; yy++)
+                                buttons[xx][yy].setText("" + show[0][xx][yy]);
 
-                                 }
+
                         /*while(cont[0]){
                             int c=a[0];
                             int d=b[0];
@@ -356,7 +356,7 @@ public class ASweepingOfTheMines extends Application
 
                                 for (int q = 0; q < 16; q++)
                                     for (int w = 0; w < 16; w++) {
-                                       // buttons[q][w].setText("" + mines[q][w]);
+                                       //buttons[q][w].setText("" + mines[q][w]);
                                         if (mines[q][w] == 9)
                                             bombct[0]++;
 
@@ -364,10 +364,58 @@ public class ASweepingOfTheMines extends Application
                                 text1.setText("button pressed and" + bombct[0]);
                                 bombct[0] = 0;
                             }
-                        if (choose[0] == 1) {
+                        else if (choose[0] == 1) {
+                        show[0] = touching(mines, show[0], a[0], b[0], 0);
+                        for (int xx = 0; xx < 16; xx++)
+                            for (int yy = 0; yy < 16; yy++)
+                                buttons[xx][yy].setText("" + show[0][xx][yy]);
+                        if (mines[a[0]][b[0]] == 9) {
+                            text1.setText("you kinda just lost click again to restart");
+                            choose[0]++;
+                            for (int q = 0; q < 16; q++)
+                                for (int w = 0; w < 16; w++) {
+                                    buttons[q][w].setText("" + mines[q][w]);
 
+
+                                }
 
                         }
+                        int check = 0;
+                        for (int q = 0; q < 16; q++)
+                            for (int w = 0; w < 16; w++) {
+                                if (show[0][q][w] == 11)
+                                    check++;
+                            }
+                                if (check == 40) {
+                                    text1.setText("congrats you have won");
+                                    choose[0]++;
+                                    for (int t = 0; t < 16; t++)
+                                        for (int u = 0; u < 16; u++) {
+                                            buttons[t][u].setText("" + mines[t][u]);
+
+
+                                        }
+                                }
+
+
+
+                    }
+                    else if(choose[0]==2)
+                    {
+                        for (int q = 0; q < 16; q++)
+                            for (int w = 0; w < 16; w++) {
+                                buttons[q][w].setText("11");
+                                show[0][q][w] = 11;
+                                mines[q][w] = 0;
+
+                            }
+                        for (int p = 0; p < 40; p++) {
+                            bombx[p] = -1;
+                            bomby[p] = -1;
+                        }
+                        text1.setText("Now attempt to clear the minefield again");
+                        choose[0]=0;
+                    }
                         //text1.setText("button pressed");
 
                 });
@@ -393,313 +441,358 @@ public class ASweepingOfTheMines extends Application
 
     }
 //////////////////////////////////THE METHODS OF KNOWLEDGE//////////////////////////////////
-    public int[][] touching(int[][] mines, int[][] show, int c, int d)
+    public int[][] touching(int[][] mines, int[][] show, int c, int d, int r)
     {
-        int temp=0;
-        int q=0;
-        int w=0;
-        if(c==0&&d==0) {System.out.println("triggered");
-            if (mines[c + 1][d + 1] == 0&&show[c][d] ==11 )
-            {
-                q=c+1;
-                w=d+1;
-                show[c+1][d+1]=mines[q][w];
-                show=touching(mines, show, c+1, d+1);
-                temp++;
-            }
+        if(show[c][d]==11||r==1) {
+            int temp = 0;
+            int q = 0;
+            int w = 0;
+            if (show[c][d] == 11)
+                show[c][d] = mines[c][d];
+            if (c == 0 && d == 0) {
+                System.out.println("triggered");
+                if (mines[c + 1][d + 1] <= 8 && show[c + 1][d + 1] == 11) {
+                    q = c + 1;
+                    w = d + 1;
+                    show[c + 1][d + 1] = mines[q][w];
+                    if (mines[q][w] == 0)
+                        show = touching(mines, show, q, w, 1);
+                    temp++;
+                }
 
-            if (mines[c][d + 1] == 0&&show[c][d] ==11)
-            {
-                q=c;
-                w=d+1;
-                show[c][d+1]=mines[q][w];
-                show=touching(mines, show, c, d+1);temp++;
-            }
-            if (mines[c + 1][d] == 0&&show[c][d] ==11)
-            {
-                q=c+1;
-                w=d;
-                show[c+1][d+1]=mines[q][w];
-                show=touching(mines, show, c+1, d);temp++;
-            }
-        }
-        else if(c==15&&d==0){System.out.println("triggered2");
-            if (mines[c - 1][d + 1] == 0&&show[c][d] ==11)
-            {
-                q=c-1;
-                w=d+1;
-                show[c-1][d+1]=mines[q][w];
-               show=touching(mines, show, c-1, d+1);temp++;
-            }
-            if (mines[c][d + 1] == 0&&show[c][d] ==11)
-            {
-                q=c;
-                w=d+1;
-                show[c][d+1]=mines[q][w];
-               show=touching(mines, show, c, d+1);temp++;
-            }
-            if (mines[c - 1][d] == 0&&show[c][d] ==11)
-            {
-                q=c-1;
-                w=d;
-                show[c-1][d]=mines[q][w];
-                show=touching(mines, show, c-1, d);temp++;
-            }
-        }
-        else if(c==15&&d==15){System.out.println("triggered3");
-            if (mines[c - 1][d - 1] == 0&&show[c][d] ==11)
-            {
-                q=c-1;
-                w=d-1;
-                show[c-1][d-1]=mines[q][w];
-                show=touching(mines, show, c-1, d-1);temp++;
-            }
-            if (mines[c][d - 1] == 0&&show[c][d] ==11)
-            {
-                q=c;
-                w=d-1;
-                show[c][d-1]=mines[q][w];
-               show=touching(mines, show, c, d-1);temp++;
-            }
-            if (mines[c - 1][d] == 0&&show[c][d] ==11)
-            {
-                q=c-1;
-                w=d;
-                show[c-1][d]=mines[q][w];
-               show=touching(mines, show, c-1, d);temp++;
-            }
-        }
-        else if(c==0&&d==15){System.out.println("triggered4");
-            if (mines[c + 1][d - 1] == 0&&show[c][d] ==11)
-            {
-                q=c+1;
-                w=d-1;
-                show[c+1][d-1]=mines[q][w];
-                show=touching(mines, show, c+1, d-1);temp++;
-            }
-            if (mines[c + 1][d] == 0&&show[c][d] ==11)
-            {
-                q=c+1;
-                w=d;
-                show[c+1][d]=mines[q][w];
-                show=touching(mines, show, c+1, d);temp++;
-            }
-            if (mines[c][d - 1] == 0&&show[c][d] ==11)
-            {
-                q=c;
-                w=d-1;
-                show[c][d-1]=mines[q][w];
-                show=touching(mines, show, c, d-1);temp++;
-            }
-        }
-        else if(c==0){System.out.println("triggered5");
-            if (mines[c][d-1] == 0&&show[c][d] ==11)
-            {
-                q=c;
-                w=d-1;
-                show[c][d-1]=mines[q][w];
-                show=touching(mines, show, c, d-1);temp++;
-            }
-            if (mines[c][d+1] == 0&&show[c][d] ==11)
-            {
-                q=c;
-                w=d+1;
-                show[c][d+1]=mines[q][w];
-                show=touching(mines, show, c, d+1);temp++;
-            }
-            if (mines[c + 1][d + 1] == 0&&show[c][d] ==11)
-            {
-                q=c+1;
-                w=d+1;
-                show[c+1][d+1]=mines[q][w];
-                show=touching(mines, show, c+1, d+1);temp++;
-            }
-            if (mines[c + 1][d - 1] == 0&&show[c][d] ==11)
-            {
-                q=c+1;
-                w=d-1;
-                show[c+1][d-1]=mines[q][w];
-                show=touching(mines, show, c+1, d-1);temp++;
-            }
-            if (mines[c + 1][d] == 0&&show[c][d] ==11)
-            {
-                q=c+1;
-                w=d;
-                show[c+1][d]=mines[q][w];
-                show=touching(mines, show, c+1, d);temp++;
-            }
-        }
-        else if(c==15){System.out.println("triggered6");
-            if (mines[c][d-1] == 0&&show[c][d] ==11)
-            {
-                q=c;
-                w=d-1;
-                show[c][d-1]=mines[q][w];
-                show=touching(mines, show, c, d-1);temp++;
-            }
-            if (mines[c][d+1] == 0&&show[c][d] ==11)
-            {
-                q=c;
-                w=d+1;
-                show[c][d+1]=mines[q][w];
-                show=touching(mines, show, c, d+1);temp++;
-            }
-            if (mines[c - 1][d + 1] == 0&&show[c][d] ==11)
-            {
-                q=c-1;
-                w=d+1;
-                show[c-1][d+1]=mines[q][w];
-                show=touching(mines, show, c-1, d+1);temp++;
-            }
-            if (mines[c - 1][d - 1] == 0&&show[c][d] ==11)
-            {
-                q=c-1;
-                w=d-1;
-                show[c-1][d-1]=mines[q][w];
-                show=touching(mines, show, c-1, d-1);temp++;
-            }
-            if (mines[c - 1][d] == 0&&show[c][d] ==11)
-            {
-                q=c-1;
-                w=d;
-                show[c-1][d]=mines[q][w];
-                show=touching(mines, show, c-1, d);temp++;
-            }
-        }
-        else if(d==0){System.out.println("triggered7");
-            if (mines[c - 1][d] == 0&&show[c][d] ==11)
-            {
-                q=c-1;
-                w=d;
-                show[c-1][d]=mines[q][w];
-                show=touching(mines, show, c-1, d);temp++;
-            }
-            if (mines[c + 1][d] == 0&&show[c][d] ==11)
-            {
-                q=c+1;
-                w=d;
-                show[c+1][d]=mines[q][w];
-                show=touching(mines, show, c+1, d);temp++;
-            }
-            if (mines[c - 1][d + 1] ==0&&show[c][d] ==11)
-            {
-                q=c-1;
-                w=d+1;
-                show[c-1][d+1]=mines[q][w];
-                show=touching(mines, show, c-1, d+1);temp++;
-            }
-            if (mines[c + 1][d + 1] == 0&&show[c][d] ==11)
-            {
-                q=c+1;
-                w=d+1;
-                show[c+1][d+1]=mines[q][w];
-                show=touching(mines, show, c+1, d+1);temp++;
-            }
-            if (mines[c][d + 1] == 0&&show[c][d] ==11)
-            {
-                q=c;
-                w=d+1;
-                show[c][d+1]=mines[q][w];
-                show=touching(mines, show, c, d+1);temp++;
-            }
-        }
-        else if(d==15){System.out.println("triggered8");
-            if (mines[c - 1][d] == 0&&show[c][d] ==11)
-            {
-                q=c-1;
-                w=d;
-                show[c-1][d]=mines[q][w];
-                show=touching(mines, show, c-1, d);temp++;
-            }
-            if (mines[c + 1][d] == 0&&show[c][d] ==11)
-            {
-                q=c+1;
-                w=d;
-                show[c+1][d]=mines[q][w];
-                show=touching(mines, show, c+1, d);temp++;
-            }
-            if (mines[c - 1][d - 1] == 0&&show[c][d] ==11)
-            {
-                q=c-1;
-                w=d-1;
-                show[c-1][d-1]=mines[q][w];
-                show=touching(mines, show, c-1, d-1);temp++;
-            }
-            if (mines[c + 1][d - 1] == 0&&show[c][d] ==11)
-            {
-                q=c+1;
-                w=d-1;
-                show[c+1][d-1]=mines[q][w];
-                show=touching(mines, show, c+1, d-1);temp++;
-            }
-            if (mines[c][d - 1] == 0&&show[c][d] ==11)
-            {
-                q=c;
-                w=d-1;
-                show[c][d-1]=mines[q][w];
-                show=touching(mines, show, c, d-1);temp++;
-            }
-        }
-        else {System.out.println("CHRONO TRIGGERED");
-            if (mines[c - 1][d - 1] == 0&&show[c][d] ==11)
-            {
-                q=c-1;
-                w=d-1;
-                show[c-1][d-1]=mines[q][w];
-                show=touching(mines, show, c-1, d-1);temp++;
-            }
-            if (mines[c - 1][d] == 0&&show[c][d] ==11)
-            {
-                q=c-1;
-                w=d;
-                show[c-1][d]=mines[q][w];
-                show=touching(mines, show, c-1, d);temp++;
-            }
-            if (mines[c][d - 1] == 0&&show[c][d] ==11)
-            {
-                q=c;
-                w=d-1;
-                show[c][d-1]=mines[q][w];
-                show=touching(mines, show, c, d-1);temp++;
-            }
-            if (mines[c + 1][d - 1] == 0&&show[c][d] ==11)
-            {
-                q=c+1;
-                w=d-1;
-                show[c+1][d-1]=mines[q][w];
-                show=touching(mines, show, c+1, d-1);temp++;
-            }
-            if (mines[c + 1][d] == 0&&show[c][d] ==11)
-            {
-                q=c+1;
-                w=d;
-                show[c+1][d]=mines[q][w];
-               show=touching(mines, show, c+1, d);temp++;
-            }
-            if (mines[c + 1][d + 1] == 0&&show[c][d] ==11)
-            {
-                q=c+1;
-                w=d+1;
-                show[c+1][d+1]=mines[q][w];
-                show=touching(mines, show, c+1, d+1);temp++;
-            }
-            if (mines[c][d + 1] == 0&&show[c][d] ==11)
-            {
-                q=c;
-                w=d+1;
-                show[c][d+1]=mines[q][w];
-                show=touching(mines, show, c, d+1);temp++;
-            }
-            if (mines[c - 1][d + 1] == 0&&show[c][d] ==11)
-            {
-                q=c-1;
-                w=d+1;
-                show[c-1][d+1]=mines[q][w];
-                show=touching(mines, show, c-1, d+1);temp++;
+                if (mines[c][d + 1] <= 8 && show[c][d + 1] == 11) {
+                    q = c;
+                    w = d + 1;
+                    show[c][d + 1] = mines[q][w];
+                    if (mines[q][w] == 0)
+                        show = touching(mines, show, q, w, 1);
+                    temp++;
+                }
+                if (mines[c + 1][d] <= 8 && show[c + 1][d] == 11) {
+                    q = c + 1;
+                    w = d;
+                    show[c + 1][d + 1] = mines[q][w];
+                    if (mines[q][w] == 0)
+                        show = touching(mines, show, q, w, 1);
+                    temp++;
+                }
+            } else if (c == 15 && d == 0) {
+                System.out.println("triggered2");
+                if (mines[c - 1][d + 1] <= 8 && show[c - 1][d + 1] == 11) {
+                    q = c - 1;
+                    w = d + 1;
+                    show[c - 1][d + 1] = mines[q][w];
+                    if (mines[q][w] == 0)
+                        show = touching(mines, show, q, w, 1);
+                    temp++;
+                }
+                if (mines[c][d + 1] <= 8 && show[c][d + 1] == 11) {
+                    q = c;
+                    w = d + 1;
+                    show[c][d + 1] = mines[q][w];
+                    if (mines[q][w] == 0)
+                        show = touching(mines, show, q, w, 1);
+                    temp++;
+                }
+                if (mines[c - 1][d] <= 8 && show[c - 1][d] == 11) {
+                    q = c - 1;
+                    w = d;
+                    show[c - 1][d] = mines[q][w];
+                    if (mines[q][w] == 0)
+                        show = touching(mines, show, q, w, 1);
+                    temp++;
+                }
+            } else if (c == 15 && d == 15) {
+                System.out.println("triggered3");
+                if (mines[c - 1][d - 1] <= 8 && show[c - 1][d - 1] == 11) {
+                    q = c - 1;
+                    w = d - 1;
+                    show[c - 1][d - 1] = mines[q][w];
+                    if (mines[q][w] == 0)
+                        show = touching(mines, show, q, w, 1);
+                    temp++;
+                }
+                if (mines[c][d - 1] <= 8 && show[c][d - 1] == 11) {
+                    q = c;
+                    w = d - 1;
+                    show[c][d - 1] = mines[q][w];
+                    if (mines[q][w] == 0)
+                        show = touching(mines, show, q, w, 1);
+                    temp++;
+                }
+                if (mines[c - 1][d] <= 8 && show[c - 1][d] == 11) {
+                    q = c - 1;
+                    w = d;
+                    show[c - 1][d] = mines[q][w];
+                    if (mines[q][w] == 0)
+                        show = touching(mines, show, q, w, 1);
+                    temp++;
+                }
+            } else if (c == 0 && d == 15) {
+                System.out.println("triggered4");
+                if (mines[c + 1][d - 1] <= 8 && show[c + 1][d - 1] == 11) {
+                    q = c + 1;
+                    w = d - 1;
+                    show[c + 1][d - 1] = mines[q][w];
+                    if (mines[q][w] == 0)
+                        show = touching(mines, show, q, w, 1);
+                    temp++;
+                }
+                if (mines[c + 1][d] <= 8 && show[c + 1][d] == 11) {
+                    q = c + 1;
+                    w = d;
+                    show[c + 1][d] = mines[q][w];
+                    if (mines[q][w] == 0)
+                        show = touching(mines, show, q, w, 1);
+                    temp++;
+                }
+                if (mines[c][d - 1] <= 8 && show[c][d - 1] == 11) {
+                    q = c;
+                    w = d - 1;
+                    show[c][d - 1] = mines[q][w];
+                    if (mines[q][w] == 0)
+                        show = touching(mines, show, q, w, 1);
+                    temp++;
+                }
+            } else if (c == 0) {
+                System.out.println("triggered5");
+                if (mines[c][d - 1] <= 8 && show[c][d - 1] == 11) {
+                    q = c;
+                    w = d - 1;
+                    show[c][d - 1] = mines[q][w];
+                    if (mines[q][w] == 0)
+                        show = touching(mines, show, q, w, 1);
+                    temp++;
+                }
+                if (mines[c][d + 1] <= 8 && show[c][d + 1] == 11) {
+                    q = c;
+                    w = d + 1;
+                    show[c][d + 1] = mines[q][w];
+                    if (mines[q][w] == 0)
+                        show = touching(mines, show, q, w, 1);
+                    temp++;
+                }
+                if (mines[c + 1][d + 1] <= 8 && show[c + 1][d + 1] == 11) {
+                    q = c + 1;
+                    w = d + 1;
+                    show[c + 1][d + 1] = mines[q][w];
+                    if (mines[q][w] == 0)
+                        show = touching(mines, show, q, w, 1);
+                    temp++;
+                }
+                if (mines[c + 1][d - 1] <= 8 && show[c + 1][d - 1] == 11) {
+                    q = c + 1;
+                    w = d - 1;
+                    show[c + 1][d - 1] = mines[q][w];
+                    if (mines[q][w] == 0)
+                        show = touching(mines, show, q, w, 1);
+                    temp++;
+                }
+                if (mines[c + 1][d] <= 8 && show[c + 1][d] == 11) {
+                    q = c + 1;
+                    w = d;
+                    show[c + 1][d] = mines[q][w];
+                    if (mines[q][w] == 0)
+                        show = touching(mines, show, q, w, 1);
+                    temp++;
+                }
+            } else if (c == 15) {
+                System.out.println("triggered6");
+                if (mines[c][d - 1] <= 8 && show[c][d - 1] == 11) {
+                    q = c;
+                    w = d - 1;
+                    show[c][d - 1] = mines[q][w];
+                    if (mines[q][w] == 0)
+                        show = touching(mines, show, q, w, 1);
+                    temp++;
+                }
+                if (mines[c][d + 1] <= 8 && show[c][d + 1] == 11) {
+                    q = c;
+                    w = d + 1;
+                    show[c][d + 1] = mines[q][w];
+                    if (mines[q][w] == 0)
+                        show = touching(mines, show, q, w, 1);
+                    temp++;
+                }
+                if (mines[c - 1][d + 1] <= 8 && show[c - 1][d + 1] == 11) {
+                    q = c - 1;
+                    w = d + 1;
+                    show[c - 1][d + 1] = mines[q][w];
+                    if (mines[q][w] == 0)
+                        show = touching(mines, show, q, w, 1);
+                    temp++;
+                }
+                if (mines[c - 1][d - 1] <= 8 && show[c - 1][d - 1] == 11) {
+                    q = c - 1;
+                    w = d - 1;
+                    show[c - 1][d - 1] = mines[q][w];
+                    if (mines[q][w] == 0)
+                        show = touching(mines, show, q, w, 1);
+                    temp++;
+                }
+                if (mines[c - 1][d] <= 8 && show[c - 1][d] == 11) {
+                    q = c - 1;
+                    w = d;
+                    show[c - 1][d] = mines[q][w];
+                    if (mines[q][w] == 0)
+                        show = touching(mines, show, q, w, 1);
+                    temp++;
+                }
+            } else if (d == 0) {
+                System.out.println("triggered7");
+                if (mines[c - 1][d] <= 8 && show[c - 1][d] == 11) {
+                    q = c - 1;
+                    w = d;
+                    show[c - 1][d] = mines[q][w];
+                    if (mines[q][w] == 0)
+                        show = touching(mines, show, q, w, 1);
+                    temp++;
+                }
+                if (mines[c + 1][d] <= 8 && show[c + 1][d] == 11) {
+                    q = c + 1;
+                    w = d;
+                    show[c + 1][d] = mines[q][w];
+                    if (mines[q][w] == 0)
+                        show = touching(mines, show, q, w, 1);
+                    temp++;
+                }
+                if (mines[c - 1][d + 1] <= 8 && show[c - 1][d + 1] == 11) {
+                    q = c - 1;
+                    w = d + 1;
+                    show[c - 1][d + 1] = mines[q][w];
+                    if (mines[q][w] == 0)
+                        show = touching(mines, show, q, w, 1);
+                    temp++;
+                }
+                if (mines[c + 1][d + 1] <= 8 && show[c + 1][d + 1] == 11) {
+                    q = c + 1;
+                    w = d + 1;
+                    show[c + 1][d + 1] = mines[q][w];
+                    if (mines[q][w] == 0)
+                        show = touching(mines, show, q, w, 1);
+                    temp++;
+                }
+                if (mines[c][d + 1] <= 8 && show[c][d + 1] == 11) {
+                    q = c;
+                    w = d + 1;
+                    show[c][d + 1] = mines[q][w];
+                    if (mines[q][w] == 0)
+                        show = touching(mines, show, q, w, 1);
+                    temp++;
+                }
+            } else if (d == 15) {
+                System.out.println("triggered8");
+                if (mines[c - 1][d] <= 8 && show[c - 1][d] == 11) {
+                    q = c - 1;
+                    w = d;
+                    show[c - 1][d] = mines[q][w];
+                    if (mines[q][w] == 0)
+                        show = touching(mines, show, q, w, 1);
+                    temp++;
+                }
+                if (mines[c + 1][d] <= 8 && show[c + 1][d] == 11) {
+                    q = c + 1;
+                    w = d;
+                    show[c + 1][d] = mines[q][w];
+                    if (mines[q][w] == 0)
+                        show = touching(mines, show, q, w, 1);
+                    temp++;
+                }
+                if (mines[c - 1][d - 1] <= 8 && show[c - 1][d - 1] == 11) {
+                    q = c - 1;
+                    w = d - 1;
+                    show[c - 1][d - 1] = mines[q][w];
+                    if (mines[q][w] == 0)
+                        show = touching(mines, show, q, w, 1);
+                    temp++;
+                }
+                if (mines[c + 1][d - 1] <= 8 && show[c + 1][d - 1] == 11) {
+                    q = c + 1;
+                    w = d - 1;
+                    show[c + 1][d - 1] = mines[q][w];
+                    if (mines[q][w] == 0)
+                        show = touching(mines, show, q, w, 1);
+                    temp++;
+                }
+                if (mines[c][d - 1] <= 8 && show[c][d - 1] == 11) {
+                    q = c;
+                    w = d - 1;
+                    show[c][d - 1] = mines[q][w];
+                    if (mines[q][w] == 0)
+                        show = touching(mines, show, q, w, 1);
+                    temp++;
+                }
+            } else {
+                System.out.println("CHRONO TRIGGERED");
+                if (mines[c - 1][d - 1] <= 8 && show[c - 1][d - 1] == 11) {
+                    q = c - 1;
+                    w = d - 1;
+                    show[c - 1][d - 1] = mines[q][w];
+                    if (mines[q][w] == 0)
+                        show = touching(mines, show, q, w, 1);
+                    temp++;
+                }
+                if (mines[c - 1][d] <= 8 && show[c - 1][d] == 11) {
+                    q = c - 1;
+                    w = d;
+                    show[c - 1][d] = mines[q][w];
+                    if (mines[q][w] == 0)
+                        show = touching(mines, show, q, w, 1);
+                    temp++;
+                }
+                if (mines[c][d - 1] <= 8 && show[c][d - 1] == 11) {
+                    q = c;
+                    w = d - 1;
+                    show[c][d - 1] = mines[q][w];
+                    if (mines[q][w] == 0)
+                        show = touching(mines, show, q, w, 1);
+                    temp++;
+                }
+                if (mines[c + 1][d - 1] <= 8 && show[c + 1][d - 1] == 11) {
+                    q = c + 1;
+                    w = d - 1;
+                    show[c + 1][d - 1] = mines[q][w];
+                    if (mines[q][w] == 0)
+                        show = touching(mines, show, q, w, 1);
+                    temp++;
+                }
+                if (mines[c + 1][d] <= 8 && show[c + 1][d] == 11) {
+                    q = c + 1;
+                    w = d;
+                    show[c + 1][d] = mines[q][w];
+                    if (mines[q][w] == 0)
+                        show = touching(mines, show, q, w, 1);
+                    temp++;
+                }
+                if (mines[c + 1][d + 1] <= 8 && show[c + 1][d + 1] == 11) {
+                    q = c + 1;
+                    w = d + 1;
+                    show[c + 1][d + 1] = mines[q][w];
+                    if (mines[q][w] == 0)
+                        show = touching(mines, show, q, w, 1);
+                    temp++;
+                }
+                if (mines[c][d + 1] <= 8 && show[c][d + 1] == 11) {
+                    q = c;
+                    w = d + 1;
+                    show[c][d + 1] = mines[q][w];
+                    if (mines[q][w] == 0)
+                        show = touching(mines, show, q, w, 1);
+                    temp++;
+                }
+                if (mines[c - 1][d + 1] <= 8 && show[c - 1][d + 1] == 11) {
+                    q = c - 1;
+                    w = d + 1;
+                    show[c - 1][d + 1] = mines[q][w];
+                    if (mines[q][w] == 0)
+                        show = touching(mines, show, q, w, 1);
+                    temp++;
+                }
             }
         }
 
         return show;
     }
+
 
 }
