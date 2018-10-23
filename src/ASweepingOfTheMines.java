@@ -1,6 +1,9 @@
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.GridPane;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Font;
@@ -33,9 +36,22 @@ import java.lang.Math.*;
 import java.lang.Object;
 import javafx.scene.control.Button;
 import java.lang.Math;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 public class ASweepingOfTheMines extends Application
-{@Override
+
+{
+    private static final int WIDTH = 600;
+    private static final int HEIGHT= 700;
+    private static final int BOX_WIDTH = 30;
+    private static final int BOX_HEIGHT= 30;
+    private static final int BOX_ROWS = 10;
+    private static final int BOX_COLS= 10;
+    private static final int BOX_MARGIN= 2;
+    private static final int BOX_X_OFFSET= (WIDTH/2) - ((BOX_WIDTH + BOX_MARGIN) * ((BOX_ROWS+BOX_MARGIN)/2));
+    private static final int BOX_Y_OFFSET= (HEIGHT/2) - ((BOX_HEIGHT + BOX_MARGIN) * ((BOX_COLS+BOX_MARGIN)/2));
+    @Override
     public void start(Stage stage)
     {
         /////////////////////////////SETTING THE OBJECTS/TEXT/////////////////////////////
@@ -45,7 +61,8 @@ public class ASweepingOfTheMines extends Application
         text1.setY(450);
         text1.setFont(Font.font("arial", 14));
         text1.setStroke(Color.BLACK);
-        //////////////////////////////A TRUCKLOAD OF 1-NUMBER ARRAYS CAUSE OF THAT DAMN LAMBDA SCOPE ERROR///////////////////////////////////////////////////////
+        //////A TRUCKLOAD OF 1-NUMBER ARRAYS CAUSE OF THAT DAMN LAMBDA SCOPE ERROR/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        //////BUT THEN AGAIN, I NOW REALIZE THAT PUTTING THESE THINGS OUTSIDE THE START METHOD WOULD HAVE SOLVED LITERALLY EVERYTHING. OH WELL.////////////////////////////////////////////////
         int choose[]={0};
         int[][]mines=new int[16][16];
         int[][] locations = new int[16][16];
@@ -71,6 +88,23 @@ public class ASweepingOfTheMines extends Application
         int[] bombo=new int[]{0};
         boolean[] cont=new boolean[]{true,true};
         int[] empty=new int[]{8};
+        int[] fla= new int[]{0};
+///////////////////////////////////////NOW THESE IMAGES//////////////////////////////////////////////////////////////
+        //MSModel gameData = new MSModel(BOX_ROWS,BOX_COLS);
+
+        Image flagImage = new Image("images/flag.png");
+        Image coveredImage = new Image("images/covered.png");
+        Image emptyImage = new Image("images/empty.png");
+        Image bombImage = new Image("images/bomb.png");
+        Image oneImage = new Image("images/1.png");
+        Image twoImage = new Image("images/2.png");
+        Image threeImage = new Image("images/3.png");
+        Image fourImage = new Image("images/4.png");
+        Image fiveImage = new Image("images/5.png");
+        Image sixImage = new Image("images/6.png");
+        Image sevenImage = new Image("images/7.png");
+        Image eightImage = new Image("images/8.png");
+
 
 
 
@@ -111,138 +145,162 @@ public class ASweepingOfTheMines extends Application
                 Button b1=new Button(""+11);
                 b1.setTranslateX(200.0);
                 buttons[x][y]= b1;
+                b1.setGraphic(new ImageView(emptyImage));
                 //locations[x][y]
                 int[] a= {x};
                 int[] b={y};
 
                 b1.setOnMouseClicked(event ->
-                {
-                    if(choose[0]==0) {
-                        for (int c = 0; c < 40; c += 0) {
-
-                            text1.setText("alright youre playing this game woooooooooooooo");
-                            sx[0] = (int) (Math.random() * 16);
-                            sy[0] = (int) (Math.random() * 16);
-                            if (mines[sx[0]][sy[0]] == 9 || sx[0] == a[0] && sy[0] == b[0]) {
-                                System.out.println("that was already used");
-                            } else {
-                                bombx[c] = sx[0];
-                                bomby[c] = sy[0];
-                                c++;
-                                mines[sx[0]][sy[0]] = 9;
+                        {
+                            MouseButton button = event.getButton();
 
 
-                            }
-                        }
-                        ifused[0] = false;
-                        for (int c = 0; c < 40; c++) {
-                            mines[bombx[c]][bomby[c]] = 9;
-                        }
-                        for (int c = 0; c < 16; c++)
-                            for (int d = 0; d < 16; d++) {
-                                if (c == 0 && d == 0) {
-                                    if (mines[c + 1][d + 1] == 9)
-                                        bombo[0]++;
-                                    if (mines[c][d + 1] == 9)
-                                        bombo[0]++;
-                                    if (mines[c + 1][d] == 9)
-                                        bombo[0]++;
-                                } else if (c == 15 && d == 0) {
-                                    if (mines[c - 1][d + 1] == 9)
-                                        bombo[0]++;
-                                    if (mines[c][d + 1] == 9)
-                                        bombo[0]++;
-                                    if (mines[c - 1][d] == 9)
-                                        bombo[0]++;
-                                } else if (c == 15 && d == 15) {
-                                    if (mines[c - 1][d - 1] == 9)
-                                        bombo[0]++;
-                                    if (mines[c][d - 1] == 9)
-                                        bombo[0]++;
-                                    if (mines[c - 1][d] == 9)
-                                        bombo[0]++;
-                                } else if (c == 0 && d == 15) {
-                                    if (mines[c + 1][d - 1] == 9)
-                                        bombo[0]++;
-                                    if (mines[c + 1][d] == 9)
-                                        bombo[0]++;
-                                    if (mines[c][d - 1] == 9)
-                                        bombo[0]++;
-                                } else if (c == 0) {
-                                    if (mines[c][d - 1] == 9)
-                                        bombo[0]++;
-                                    if (mines[c][d + 1] == 9)
-                                        bombo[0]++;
-                                    if (mines[c + 1][d + 1] == 9)
-                                        bombo[0]++;
-                                    if (mines[c + 1][d - 1] == 9)
-                                        bombo[0]++;
-                                    if (mines[c + 1][d] == 9)
-                                        bombo[0]++;
-                                } else if (c == 15) {
-                                    if (mines[c][d - 1] == 9)
-                                        bombo[0]++;
-                                    if (mines[c][d + 1] == 9)
-                                        bombo[0]++;
-                                    if (mines[c - 1][d + 1] == 9)
-                                        bombo[0]++;
-                                    if (mines[c - 1][d - 1] == 9)
-                                        bombo[0]++;
-                                    if (mines[c - 1][d] == 9)
-                                        bombo[0]++;
-                                } else if (d == 0) {
-                                    if (mines[c - 1][d] == 9)
-                                        bombo[0]++;
-                                    if (mines[c + 1][d] == 9)
-                                        bombo[0]++;
-                                    if (mines[c - 1][d + 1] == 9)
-                                        bombo[0]++;
-                                    if (mines[c + 1][d + 1] == 9)
-                                        bombo[0]++;
-                                    if (mines[c][d + 1] == 9)
-                                        bombo[0]++;
-                                } else if (d == 15) {
-                                    if (mines[c - 1][d] == 9)
-                                        bombo[0]++;
-                                    if (mines[c + 1][d] == 9)
-                                        bombo[0]++;
-                                    if (mines[c - 1][d - 1] == 9)
-                                        bombo[0]++;
-                                    if (mines[c + 1][d - 1] == 9)
-                                        bombo[0]++;
-                                    if (mines[c][d - 1] == 9)
-                                        bombo[0]++;
-                                } else {
-                                    if (mines[c - 1][d - 1] == 9)
-                                        bombo[0]++;
-                                    if (mines[c - 1][d] == 9)
-                                        bombo[0]++;
-                                    if (mines[c][d - 1] == 9)
-                                        bombo[0]++;
-                                    if (mines[c + 1][d - 1] == 9)
-                                        bombo[0]++;
-                                    if (mines[c + 1][d] == 9)
-                                        bombo[0]++;
-                                    if (mines[c + 1][d + 1] == 9)
-                                        bombo[0]++;
-                                    if (mines[c][d + 1] == 9)
-                                        bombo[0]++;
-                                    if (mines[c - 1][d + 1] == 9)
-                                        bombo[0]++;
+                            if (button == MouseButton.SECONDARY) {
+                                if (fla[0] == 0) {
+                                    show[0][a[0]][b[0]] = 12;
+                                    fla[0]++;
+                                } else if(fla[0]==1) {
+                                    show[0][a[0]][b[0]] = 13;
+                                    fla[0]++;
+                                }
+                                else
+                                {
+                                    show[0][a[0]][b[0]] = 11;
+                                    fla[0]=0;
                                 }
 
 
-                                if (mines[c][d] == 0)
-                                    mines[c][d] = bombo[0];
-                                bombo[0] = 0;
+                                for (int xx = 0; xx < 16; xx++)
+                                    for (int yy = 0; yy < 16; yy++)
+                                        buttons[xx][yy].setText("" + show[0][xx][yy]);
                             }
+                            else{
+                            if (choose[0] == 0) {
+                                for (int c = 0; c < 40; c += 0) {
 
-                       show[0] = touching(mines, show[0], a[0], b[0], 0);
+                                    text1.setText("alright youre playing this game woooooooooooooo");
+                                    sx[0] = (int) (Math.random() * 16);
+                                    sy[0] = (int) (Math.random() * 16);
+                                    if (mines[sx[0]][sy[0]] == 9 || sx[0] == a[0] && sy[0] == b[0]) {
+                                        System.out.println("that was already used");
+                                    } else {
+                                        bombx[c] = sx[0];
+                                        bomby[c] = sy[0];
+                                        c++;
+                                        mines[sx[0]][sy[0]] = 9;
 
 
-                        for (int xx = 0; xx < 16; xx++)
-                            for (int yy = 0; yy < 16; yy++)
-                                buttons[xx][yy].setText("" + show[0][xx][yy]);
+                                    }
+                                }
+                                ifused[0] = false;
+                                for (int c = 0; c < 40; c++) {
+                                    mines[bombx[c]][bomby[c]] = 9;
+                                }
+                                for (int c = 0; c < 16; c++)
+                                    for (int d = 0; d < 16; d++) {
+                                        if (c == 0 && d == 0) {
+                                            if (mines[c + 1][d + 1] == 9)
+                                                bombo[0]++;
+                                            if (mines[c][d + 1] == 9)
+                                                bombo[0]++;
+                                            if (mines[c + 1][d] == 9)
+                                                bombo[0]++;
+                                        } else if (c == 15 && d == 0) {
+                                            if (mines[c - 1][d + 1] == 9)
+                                                bombo[0]++;
+                                            if (mines[c][d + 1] == 9)
+                                                bombo[0]++;
+                                            if (mines[c - 1][d] == 9)
+                                                bombo[0]++;
+                                        } else if (c == 15 && d == 15) {
+                                            if (mines[c - 1][d - 1] == 9)
+                                                bombo[0]++;
+                                            if (mines[c][d - 1] == 9)
+                                                bombo[0]++;
+                                            if (mines[c - 1][d] == 9)
+                                                bombo[0]++;
+                                        } else if (c == 0 && d == 15) {
+                                            if (mines[c + 1][d - 1] == 9)
+                                                bombo[0]++;
+                                            if (mines[c + 1][d] == 9)
+                                                bombo[0]++;
+                                            if (mines[c][d - 1] == 9)
+                                                bombo[0]++;
+                                        } else if (c == 0) {
+                                            if (mines[c][d - 1] == 9)
+                                                bombo[0]++;
+                                            if (mines[c][d + 1] == 9)
+                                                bombo[0]++;
+                                            if (mines[c + 1][d + 1] == 9)
+                                                bombo[0]++;
+                                            if (mines[c + 1][d - 1] == 9)
+                                                bombo[0]++;
+                                            if (mines[c + 1][d] == 9)
+                                                bombo[0]++;
+                                        } else if (c == 15) {
+                                            if (mines[c][d - 1] == 9)
+                                                bombo[0]++;
+                                            if (mines[c][d + 1] == 9)
+                                                bombo[0]++;
+                                            if (mines[c - 1][d + 1] == 9)
+                                                bombo[0]++;
+                                            if (mines[c - 1][d - 1] == 9)
+                                                bombo[0]++;
+                                            if (mines[c - 1][d] == 9)
+                                                bombo[0]++;
+                                        } else if (d == 0) {
+                                            if (mines[c - 1][d] == 9)
+                                                bombo[0]++;
+                                            if (mines[c + 1][d] == 9)
+                                                bombo[0]++;
+                                            if (mines[c - 1][d + 1] == 9)
+                                                bombo[0]++;
+                                            if (mines[c + 1][d + 1] == 9)
+                                                bombo[0]++;
+                                            if (mines[c][d + 1] == 9)
+                                                bombo[0]++;
+                                        } else if (d == 15) {
+                                            if (mines[c - 1][d] == 9)
+                                                bombo[0]++;
+                                            if (mines[c + 1][d] == 9)
+                                                bombo[0]++;
+                                            if (mines[c - 1][d - 1] == 9)
+                                                bombo[0]++;
+                                            if (mines[c + 1][d - 1] == 9)
+                                                bombo[0]++;
+                                            if (mines[c][d - 1] == 9)
+                                                bombo[0]++;
+                                        } else {
+                                            if (mines[c - 1][d - 1] == 9)
+                                                bombo[0]++;
+                                            if (mines[c - 1][d] == 9)
+                                                bombo[0]++;
+                                            if (mines[c][d - 1] == 9)
+                                                bombo[0]++;
+                                            if (mines[c + 1][d - 1] == 9)
+                                                bombo[0]++;
+                                            if (mines[c + 1][d] == 9)
+                                                bombo[0]++;
+                                            if (mines[c + 1][d + 1] == 9)
+                                                bombo[0]++;
+                                            if (mines[c][d + 1] == 9)
+                                                bombo[0]++;
+                                            if (mines[c - 1][d + 1] == 9)
+                                                bombo[0]++;
+                                        }
+
+
+                                        if (mines[c][d] == 0)
+                                            mines[c][d] = bombo[0];
+                                        bombo[0] = 0;
+                                    }
+
+                                show[0] = touching(mines, show[0], a[0], b[0], 0);
+
+
+                                for (int xx = 0; xx < 16; xx++)
+                                    for (int yy = 0; yy < 16; yy++)
+                                        buttons[xx][yy].setText("" + show[0][xx][yy]);
 
 
                         /*while(cont[0]){
@@ -356,36 +414,35 @@ public class ASweepingOfTheMines extends Application
 
                                 for (int q = 0; q < 16; q++)
                                     for (int w = 0; w < 16; w++) {
-                                       //buttons[q][w].setText("" + mines[q][w]);
+                                        //buttons[q][w].setText("" + mines[q][w]);
                                         if (mines[q][w] == 9)
                                             bombct[0]++;
 
                                     }
                                 text1.setText("button pressed and" + bombct[0]);
                                 bombct[0] = 0;
-                            }
-                        else if (choose[0] == 1) {
-                        show[0] = touching(mines, show[0], a[0], b[0], 0);
-                        for (int xx = 0; xx < 16; xx++)
-                            for (int yy = 0; yy < 16; yy++)
-                                buttons[xx][yy].setText("" + show[0][xx][yy]);
-                        if (mines[a[0]][b[0]] == 9) {
-                            text1.setText("you kinda just lost click again to restart");
-                            choose[0]++;
-                            for (int q = 0; q < 16; q++)
-                                for (int w = 0; w < 16; w++) {
-                                    buttons[q][w].setText("" + mines[q][w]);
+                            } else if (choose[0] == 1) {
+                                show[0] = touching(mines, show[0], a[0], b[0], 0);
+                                for (int xx = 0; xx < 16; xx++)
+                                    for (int yy = 0; yy < 16; yy++)
+                                        buttons[xx][yy].setText("" + show[0][xx][yy]);
+                                if (mines[a[0]][b[0]] == 9) {
+                                    text1.setText("you kinda just lost click again to restart");
+                                    choose[0]++;
+                                    for (int q = 0; q < 16; q++)
+                                        for (int w = 0; w < 16; w++) {
+                                            buttons[q][w].setText("" + mines[q][w]);
 
+
+                                        }
 
                                 }
-
-                        }
-                        int check = 0;
-                        for (int q = 0; q < 16; q++)
-                            for (int w = 0; w < 16; w++) {
-                                if (show[0][q][w] == 11)
-                                    check++;
-                            }
+                                int check = 0;
+                                for (int q = 0; q < 16; q++)
+                                    for (int w = 0; w < 16; w++) {
+                                        if (show[0][q][w] == 11)
+                                            check++;
+                                    }
                                 if (check == 40) {
                                     text1.setText("congrats you have won");
                                     choose[0]++;
@@ -398,24 +455,22 @@ public class ASweepingOfTheMines extends Application
                                 }
 
 
+                            } else if (choose[0] == 2) {
+                                for (int q = 0; q < 16; q++)
+                                    for (int w = 0; w < 16; w++) {
+                                        buttons[q][w].setText("11");
+                                        show[0][q][w] = 11;
+                                        mines[q][w] = 0;
 
-                    }
-                    else if(choose[0]==2)
-                    {
-                        for (int q = 0; q < 16; q++)
-                            for (int w = 0; w < 16; w++) {
-                                buttons[q][w].setText("11");
-                                show[0][q][w] = 11;
-                                mines[q][w] = 0;
-
+                                    }
+                                for (int p = 0; p < 40; p++) {
+                                    bombx[p] = -1;
+                                    bomby[p] = -1;
+                                }
+                                text1.setText("Now attempt to clear the minefield again");
+                                choose[0] = 0;
                             }
-                        for (int p = 0; p < 40; p++) {
-                            bombx[p] = -1;
-                            bomby[p] = -1;
                         }
-                        text1.setText("Now attempt to clear the minefield again");
-                        choose[0]=0;
-                    }
                         //text1.setText("button pressed");
 
                 });
@@ -444,7 +499,10 @@ public class ASweepingOfTheMines extends Application
     public int[][] touching(int[][] mines, int[][] show, int c, int d, int r)
     {
         if(show[c][d]==11||r==1) {
-            int temp = 0;
+            if (mines[c][d] >= 1 && mines[c][d] <= 8)
+                show[c][d] = mines[c][d];
+            else{
+                int temp = 0;
             int q = 0;
             int w = 0;
             if (show[c][d] == 11)
@@ -789,6 +847,7 @@ public class ASweepingOfTheMines extends Application
                     temp++;
                 }
             }
+        }
         }
 
         return show;
