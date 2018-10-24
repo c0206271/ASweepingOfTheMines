@@ -58,7 +58,7 @@ public class ASweepingOfTheMines extends Application
         Text text1 = new Text();
         text1.setText("Hello and welcome to A Sweeping Of The Mines. Press click to continue to the game.");
         text1.setX(100);
-        text1.setY(450);
+        text1.setY(500);
         text1.setFont(Font.font("arial", 14));
         text1.setStroke(Color.BLACK);
         //////A TRUCKLOAD OF 1-NUMBER ARRAYS CAUSE OF THAT DAMN LAMBDA SCOPE ERROR/////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -104,6 +104,7 @@ public class ASweepingOfTheMines extends Application
         Image sixImage = new Image("images/6.png");
         Image sevenImage = new Image("images/7.png");
         Image eightImage = new Image("images/8.png");
+        Image question = new Image("images/question.png");
 
 
 
@@ -137,18 +138,19 @@ public class ASweepingOfTheMines extends Application
  ////////// ///////////////////////////////SETTING THE GRID//////////////////////
 
         GridPane grid= new GridPane();
-        Button[][] buttons =new Button[16][16];
+        ImageView[][] buttons =new ImageView[16][16];
 
         for(int x=0; x<16; x++)
             for(int y=0; y<16;y++)
             {
-                Button b1=new Button(""+11);
-                b1.setTranslateX(200.0);
+                ImageView b1=new ImageView(coveredImage);
+                b1.setTranslateX(150.0);
                 buttons[x][y]= b1;
-                b1.setGraphic(new ImageView(emptyImage));
+
                 //locations[x][y]
                 int[] a= {x};
                 int[] b={y};
+
 
                 b1.setOnMouseClicked(event ->
                         {
@@ -156,23 +158,52 @@ public class ASweepingOfTheMines extends Application
 
 
                             if (button == MouseButton.SECONDARY) {
-                                if (fla[0] == 0) {
+                                if (show[0][a[0]][b[0]] == 11)
                                     show[0][a[0]][b[0]] = 12;
-                                    fla[0]++;
-                                } else if(fla[0]==1) {
+                                else if(show[0][a[0]][b[0]] == 12)
                                     show[0][a[0]][b[0]] = 13;
-                                    fla[0]++;
-                                }
-                                else
-                                {
+                                else if(show[0][a[0]][b[0]] == 13)
                                     show[0][a[0]][b[0]] = 11;
-                                    fla[0]=0;
-                                }
 
 
-                                for (int xx = 0; xx < 16; xx++)
-                                    for (int yy = 0; yy < 16; yy++)
-                                        buttons[xx][yy].setText("" + show[0][xx][yy]);
+                                int num=40;
+                                for (int q = 0; q < 16; q++)
+                                    for (int w = 0; w < 16; w++)
+                                        if (show[0][q][w] == 12)
+                                            num--;
+                                text1.setText("You are now playing A Sweeping Of The Mines with " + num+ " mines.");
+
+
+                                for (int q = 0; q < 16; q++)
+                                    for (int w = 0; w < 16; w++)
+                                    {
+                                        if(show[0][q][w]==0)
+                                            buttons[q][w].setImage(emptyImage);
+                                        if(show[0][q][w]==1)
+                                            buttons[q][w].setImage(oneImage);
+                                        if(show[0][q][w]==2)
+                                            buttons[q][w].setImage(twoImage);
+                                        if(show[0][q][w]==3)
+                                            buttons[q][w].setImage(threeImage);
+                                        if(show[0][q][w]==4)
+                                            buttons[q][w].setImage(fourImage);
+                                        if(show[0][q][w]==5)
+                                            buttons[q][w].setImage(fiveImage);
+                                        if(show[0][q][w]==6)
+                                            buttons[q][w].setImage(sixImage);
+                                        if(show[0][q][w]==7)
+                                            buttons[q][w].setImage(sevenImage);
+                                        if(show[0][q][w]==8)
+                                            buttons[q][w].setImage(eightImage);
+                                        if(show[0][q][w]==9)
+                                            buttons[q][w].setImage(bombImage);
+                                        if(show[0][q][w]==11)
+                                            buttons[q][w].setImage(coveredImage);
+                                        if(show[0][q][w]==12)
+                                            buttons[q][w].setImage(flagImage);
+                                        if(show[0][q][w]==13)
+                                            buttons[q][w].setImage(question);
+                                    }
                             }
                             else{
                             if (choose[0] == 0) {
@@ -298,140 +329,119 @@ public class ASweepingOfTheMines extends Application
                                 show[0] = touching(mines, show[0], a[0], b[0], 0);
 
 
-                                for (int xx = 0; xx < 16; xx++)
-                                    for (int yy = 0; yy < 16; yy++)
-                                        buttons[xx][yy].setText("" + show[0][xx][yy]);
+                                for (int q = 0; q < 16; q++)
+                                    for (int w = 0; w < 16; w++)
+                                    {
+                                        if(show[0][q][w]==0)
+                                            buttons[q][w].setImage(emptyImage);
+                                        if(show[0][q][w]==1)
+                                            buttons[q][w].setImage(oneImage);
+                                        if(show[0][q][w]==2)
+                                            buttons[q][w].setImage(twoImage);
+                                        if(show[0][q][w]==3)
+                                            buttons[q][w].setImage(threeImage);
+                                        if(show[0][q][w]==4)
+                                            buttons[q][w].setImage(fourImage);
+                                        if(show[0][q][w]==5)
+                                            buttons[q][w].setImage(fiveImage);
+                                        if(show[0][q][w]==6)
+                                            buttons[q][w].setImage(sixImage);
+                                        if(show[0][q][w]==7)
+                                            buttons[q][w].setImage(sevenImage);
+                                        if(show[0][q][w]==8)
+                                            buttons[q][w].setImage(eightImage);
+                                        if(show[0][q][w]==9)
+                                            buttons[q][w].setImage(bombImage);
+                                        if(show[0][q][w]==11)
+                                            buttons[q][w].setImage(coveredImage);
+                                        if(show[0][q][w]==12)
+                                            buttons[q][w].setImage(flagImage);
+                                        if(show[0][q][w]==13)
+                                            buttons[q][w].setImage(question);
+                                    }
 
 
-                        /*while(cont[0]){
-                            int c=a[0];
-                            int d=b[0];
-                            if(c==0&&d==0) {
-                                if (mines[c + 1][d + 1] == 0)
-                                {
-                                    cont[0]=true;
-                                    show[c+1][d+1]=0;///no thisu isnt right change it
-                                }
 
-                                if (mines[c][d + 1] == 0)
-                                    cont[0]=true;
-                                if (mines[c + 1][d] == 0)
-                                    cont[0]=true;
-                            }
-                            else if(c==15&&d==0){
-                                if (mines[c - 1][d + 1] == 0)
-                                    cont[0]=true;
-                                if (mines[c][d + 1] == 0)
-                                    cont[0]=true;
-                                if (mines[c - 1][d] == 0)
-                                    cont[0]=true;
-                            }
-                            else if(c==15&&d==15){
-                                if (mines[c - 1][d - 1] == 0)
-                                    cont[0]=true;
-                                if (mines[c][d - 1] == 0)
-                                    cont[0]=true;
-                                if (mines[c - 1][d] == 0)
-                                    cont[0]=true;
-                            }
-                            else if(c==0&&d==15){
-                                if (mines[c + 1][d - 1] == 0)
-                                    cont[0]=true;
-                                if (mines[c + 1][d] == 0)
-                                    cont[0]=true;
-                                if (mines[c][d - 1] == 0)
-                                    bombo[0]++;
-                            }
-                            else if(c==0){
-                                if (mines[c][d-1] == 0)
-                                    bombo[0]++;
-                                if (mines[c][d+1] == 0)
-                                    bombo[0]++;
-                                if (mines[c + 1][d + 1] == 0)
-                                    bombo[0]++;
-                                if (mines[c + 1][d - 1] == 0)
-                                    bombo[0]++;
-                                if (mines[c + 1][d] == 0)
-                                    bombo[0]++;
-                            }
-                            else if(c==15){
-                                if (mines[c][d-1] == 0)
-                                    bombo[0]++;
-                                if (mines[c][d+1] == 0)
-                                    bombo[0]++;
-                                if (mines[c - 1][d + 1] == 0)
-                                    bombo[0]++;
-                                if (mines[c - 1][d - 1] == 0)
-                                    bombo[0]++;
-                                if (mines[c - 1][d] == 0)
-                                    bombo[0]++;
-                            }
-                            else if(d==0){
-                                if (mines[c - 1][d] == 0)
-                                    bombo[0]++;
-                                if (mines[c + 1][d] == 0)
-                                    bombo[0]++;
-                                if (mines[c - 1][d + 1] ==0)
-                                    bombo[0]++;
-                                if (mines[c + 1][d + 1] == 0)
-                                    bombo[0]++;
-                                if (mines[c][d + 1] == 0)
-                                    bombo[0]++;
-                            }
-                            else if(d==15){
-                                if (mines[c - 1][d] == 0)
-                                    bombo[0]++;
-                                if (mines[c + 1][d] == 0)
-                                    bombo[0]++;
-                                if (mines[c - 1][d - 1] == 0)
-                                    bombo[0]++;
-                                if (mines[c + 1][d - 1] == 0)
-                                    bombo[0]++;
-                                if (mines[c][d - 1] == 0)
-                                    bombo[0]++;
-                            }
-                            else {
-                                if (mines[c - 1][d - 1] == 0)
-                                    bombo[0]++;
-                                if (mines[c - 1][d] == 0)
-                                    bombo[0]++;
-                                if (mines[c][d - 1] == 0)
-                                    bombo[0]++;
-                                if (mines[c + 1][d - 1] == 0)
-                                    bombo[0]++;
-                                if (mines[c + 1][d] == 9)
-                                    bombo[0]++;
-                                if (mines[c + 1][d + 1] == 0)
-                                    bombo[0]++;
-                                if (mines[c][d + 1] == 9)
-                                    bombo[0]++;
-                                if (mines[c - 1][d + 1] == 0)
-                                    bombo[0]++;
-                            }
-                        }*/
                                 choose[0]++;
 
 
                                 for (int q = 0; q < 16; q++)
                                     for (int w = 0; w < 16; w++) {
-                                        //buttons[q][w].setText("" + mines[q][w]);
+                                       ////////////////////////////////////// //buttons[q][w].setText("" + mines[q][w]);
                                         if (mines[q][w] == 9)
                                             bombct[0]++;
 
                                     }
-                                text1.setText("button pressed and" + bombct[0]);
+                                text1.setText("You are now playing A Sweeping Of The Mines with " + bombct[0]+ " mines.");
                                 bombct[0] = 0;
+
                             } else if (choose[0] == 1) {
                                 show[0] = touching(mines, show[0], a[0], b[0], 0);
-                                for (int xx = 0; xx < 16; xx++)
-                                    for (int yy = 0; yy < 16; yy++)
-                                        buttons[xx][yy].setText("" + show[0][xx][yy]);
+                                for (int q = 0; q < 16; q++)
+                                    for (int w = 0; w < 16; w++)
+                                    {
+                                        if(show[0][q][w]==0)
+                                            buttons[q][w].setImage(emptyImage);
+                                        if(show[0][q][w]==1)
+                                            buttons[q][w].setImage(oneImage);
+                                        if(show[0][q][w]==2)
+                                            buttons[q][w].setImage(twoImage);
+                                        if(show[0][q][w]==3)
+                                            buttons[q][w].setImage(threeImage);
+                                        if(show[0][q][w]==4)
+                                            buttons[q][w].setImage(fourImage);
+                                        if(show[0][q][w]==5)
+                                            buttons[q][w].setImage(fiveImage);
+                                        if(show[0][q][w]==6)
+                                            buttons[q][w].setImage(sixImage);
+                                        if(show[0][q][w]==7)
+                                            buttons[q][w].setImage(sevenImage);
+                                        if(show[0][q][w]==8)
+                                            buttons[q][w].setImage(eightImage);
+                                        if(show[0][q][w]==9)
+                                            buttons[q][w].setImage(bombImage);
+                                        if(show[0][q][w]==11)
+                                            buttons[q][w].setImage(coveredImage);
+                                        if(show[0][q][w]==12)
+                                            buttons[q][w].setImage(flagImage);
+                                        if(show[0][q][w]==13)
+                                            buttons[q][w].setImage(question);
+                                    }
+                                    int num=40;
+                                for (int q = 0; q < 16; q++)
+                                    for (int w = 0; w < 16; w++)
+                                        if (show[0][q][w] == 12)
+                                            num--;
+                                text1.setText("You are now playing A Sweeping Of The Mines with " + num+ " mines.");
+
                                 if (mines[a[0]][b[0]] == 9) {
-                                    text1.setText("you kinda just lost click again to restart");
+                                    text1.setText("You have lost          Click to play again");
+                                    System.out.println("it did trigger");
                                     choose[0]++;
                                     for (int q = 0; q < 16; q++)
                                         for (int w = 0; w < 16; w++) {
-                                            buttons[q][w].setText("" + mines[q][w]);
+                                            {
+                                                if(mines[q][w]==0)
+                                                    buttons[q][w].setImage(emptyImage);
+                                                if(mines[q][w]==1)
+                                                    buttons[q][w].setImage(oneImage);
+                                                if(mines[q][w]==2)
+                                                    buttons[q][w].setImage(twoImage);
+                                                if(mines[q][w]==3)
+                                                    buttons[q][w].setImage(threeImage);
+                                                if(mines[q][w]==4)
+                                                    buttons[q][w].setImage(fourImage);
+                                                if(mines[q][w]==5)
+                                                    buttons[q][w].setImage(fiveImage);
+                                                if(mines[q][w]==6)
+                                                    buttons[q][w].setImage(sixImage);
+                                                if(mines[q][w]==7)
+                                                    buttons[q][w].setImage(sevenImage);
+                                                if(mines[q][w]==8)
+                                                    buttons[q][w].setImage(eightImage);
+                                                if(mines[q][w]==9)
+                                                    buttons[q][w].setImage(bombImage);
+                                            }
 
 
                                         }
@@ -444,13 +454,36 @@ public class ASweepingOfTheMines extends Application
                                             check++;
                                     }
                                 if (check == 40) {
-                                    text1.setText("congrats you have won");
+                                    int f=(int)(Math.random()*3);
+                                    if(f==0)
+                                        text1.setText("Conglaturation            Click to play again");
+                                    if(f==1)
+                                        text1.setText("A Winner Is You            Click to play again");
+                                    if(f==2)
+                                        text1.setText("Your'e Winner            Click to play again");
                                     choose[0]++;
                                     for (int t = 0; t < 16; t++)
                                         for (int u = 0; u < 16; u++) {
-                                            buttons[t][u].setText("" + mines[t][u]);
-
-
+                                            if(mines[t][u]==0)
+                                                buttons[t][u].setImage(emptyImage);
+                                            if(mines[t][u]==1)
+                                                buttons[t][u].setImage(oneImage);
+                                            if(mines[t][u]==2)
+                                                buttons[t][u].setImage(twoImage);
+                                            if(mines[t][u]==3)
+                                                buttons[t][u].setImage(threeImage);
+                                            if(mines[t][u]==4)
+                                                buttons[t][u].setImage(fourImage);
+                                            if(mines[t][u]==5)
+                                                buttons[t][u].setImage(fiveImage);
+                                            if(mines[t][u]==6)
+                                                buttons[t][u].setImage(sixImage);
+                                            if(mines[t][u]==7)
+                                                buttons[t][u].setImage(sevenImage);
+                                            if(mines[t][u]==8)
+                                                buttons[t][u].setImage(eightImage);
+                                            if(mines[t][u]==9)
+                                                buttons[t][u].setImage(bombImage);
                                         }
                                 }
 
@@ -458,7 +491,7 @@ public class ASweepingOfTheMines extends Application
                             } else if (choose[0] == 2) {
                                 for (int q = 0; q < 16; q++)
                                     for (int w = 0; w < 16; w++) {
-                                        buttons[q][w].setText("11");
+                                        buttons[q][w].setImage(coveredImage);
                                         show[0][q][w] = 11;
                                         mines[q][w] = 0;
 
@@ -471,11 +504,14 @@ public class ASweepingOfTheMines extends Application
                                 choose[0] = 0;
                             }
                         }
-                        //text1.setText("button pressed");
+
+
+
 
                 });
 
             }
+
         for(int x=0; x<16; x++)
             for(int y=0; y<16; y++)
                 grid.add(buttons[x][y],x,y,1,1);
