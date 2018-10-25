@@ -38,6 +38,7 @@ import javafx.scene.control.Button;
 import java.lang.Math;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.media.AudioClip;
 
 public class ASweepingOfTheMines extends Application
 
@@ -105,6 +106,11 @@ public class ASweepingOfTheMines extends Application
         Image sevenImage = new Image("images/7.png");
         Image eightImage = new Image("images/8.png");
         Image question = new Image("images/question.png");
+        Image hap = new Image("images/happy.png");
+        Image sad = new Image("images/sad.png");
+        Image neu = new Image("images/neu.png");
+        AudioClip win = new AudioClip("file:src/images/win.wav");
+        AudioClip loss = new AudioClip("file:src/images/loss.wav");
 
 
 
@@ -139,6 +145,13 @@ public class ASweepingOfTheMines extends Application
 
         GridPane grid= new GridPane();
         ImageView[][] buttons =new ImageView[16][16];
+        ImageView face= new ImageView();
+        face.setTranslateX(50);
+        face.setTranslateY(50);
+        face.setImage(neu);
+
+
+
 
         for(int x=0; x<16; x++)
             for(int y=0; y<16;y++)
@@ -415,6 +428,9 @@ public class ASweepingOfTheMines extends Application
                                 text1.setText("You are now playing A Sweeping Of The Mines with " + num+ " mines.");
 
                                 if (mines[a[0]][b[0]] == 9) {
+                                    face.setImage(sad);
+                                    loss.play();
+
                                     text1.setText("You have lost          Click to play again");
                                     System.out.println("it did trigger");
                                     choose[0]++;
@@ -462,6 +478,8 @@ public class ASweepingOfTheMines extends Application
                                     if(f==2)
                                         text1.setText("Your'e Winner            Click to play again");
                                     choose[0]++;
+                                    face.setImage(hap);
+                                    win.play();
                                     for (int t = 0; t < 16; t++)
                                         for (int u = 0; u < 16; u++) {
                                             if(mines[t][u]==0)
@@ -494,6 +512,7 @@ public class ASweepingOfTheMines extends Application
                                         buttons[q][w].setImage(coveredImage);
                                         show[0][q][w] = 11;
                                         mines[q][w] = 0;
+                                        face.setImage(neu);
 
                                     }
                                 for (int p = 0; p < 40; p++) {
@@ -519,7 +538,7 @@ public class ASweepingOfTheMines extends Application
         grid.setVgap(0);
 
         ///////////////////////////GROUP/STANDARD/////////////////////////////////////////////////////
-        Group root = new Group(grid, text1);
+        Group root = new Group(grid, text1, face);
         Scene scene = new Scene(root, 800, 600);
         stage.setTitle("A Sweeping Of the Mines");
         stage.setScene(scene);
