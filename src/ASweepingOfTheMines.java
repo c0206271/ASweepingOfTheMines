@@ -146,7 +146,7 @@ public class ASweepingOfTheMines extends Application
         GridPane grid= new GridPane();
         ImageView[][] buttons =new ImageView[16][16];
         ImageView face= new ImageView();
-        face.setTranslateX(50);
+        face.setTranslateX(30);
         face.setTranslateY(50);
         face.setImage(neu);
 
@@ -469,7 +469,7 @@ public class ASweepingOfTheMines extends Application
                                         if (show[0][q][w] == 11)
                                             check++;
                                     }
-                                if (check == 40) {
+                                if (check == 40) {///////////////////////////////////HERES WHERE THE WIN CONDITION IS PUT/////////////////////////////////////////
                                     int f=(int)(Math.random()*3);
                                     if(f==0)
                                         text1.setText("Conglaturation            Click to play again");
