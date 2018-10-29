@@ -109,7 +109,7 @@ public class ASweepingOfTheMines extends Application
         Image hap = new Image("images/happy.png");
         Image sad = new Image("images/sad.png");
         Image neu = new Image("images/neu.png");
-        AudioClip win = new AudioClip("file:src/images/win.wav");
+        AudioClip win = new AudioClip("file:src/images/win2.wav");
         AudioClip loss = new AudioClip("file:src/images/loss.wav");
 
 
